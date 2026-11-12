@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>ANTKRIS — каталог одежды с вышивкой | Прототип</title>
+<title>ANTKRIS — магазин одежды с вышивкой</title>
 <style>
 @font-face{font-family:'Inter';src:local('Inter');font-weight:100 900;font-style:normal}
 *{box-sizing:border-box}html,body{margin:0}body{font-family:Inter,'Arial',sans-serif;background:#ececec;color:#111; -webkit-font-smoothing:antialiased}
@@ -157,8 +157,101 @@ body{background:#fff;overflow:hidden}
 .modal-panel input{width:100%;padding:14px;border:1px solid #ddd;font-size:14px;border-radius:0;margin:4px 0 14px}
 .toast{position:fixed;z-index:120;bottom:calc(84px + env(safe-area-inset-bottom,0px));left:50%;transform:translateX(-50%);background:#111;color:white;font-size:12px;padding:12px 18px;max-width:90vw;text-align:center;box-shadow:0 4px 15px #0002}
 @media(prefers-reduced-motion:no-preference){.preview-item{animation:screen-in .15s ease-out}@keyframes screen-in{from{opacity:.75}to{opacity:1}}}
+
+/* Checkout extension — sober editorial retail system, mobile first */
+:root{color-scheme:light}
+button,input,textarea,select{font:inherit}
+button{touch-action:manipulation}
+body{overscroll-behavior:none}
+.ui-icon,.top-left,.nav-link{position:relative}
+.nav-count,.top-count{position:absolute;top:-3px;right:8px;min-width:15px;height:15px;padding:0 3px;background:#111;color:#fff;border-radius:8px;font-size:9px;font-weight:650;display:flex;justify-content:center;align-items:center;line-height:1}
+.top-count{right:-7px;top:0}
+.nav-link .nav-count{top:-4px;right:calc(50% - 17px)}
+.nav-link:focus-visible,.ui-icon:focus-visible,.extra-action:focus-visible,.buy-btn:focus-visible,.stepper button:focus-visible,.choice:focus-within{outline:2px solid #111;outline-offset:2px}
+.nav-link,.ui-icon{min-height:44px;justify-content:center}
+.nav-link{gap:3px}
+.top-left{min-height:44px}
+.extra-section{padding:23px 19px 30px;max-width:560px;margin:auto}
+.extra-section h1{font-size:31px;letter-spacing:-1.15px;margin-bottom:10px}
+.extra-section .subtitle{font-size:12px;line-height:1.6;color:#707070;margin-bottom:21px}
+.extra-badge{font-size:10px;letter-spacing:1.3px;color:#777}
+.checkout-progress{display:flex;align-items:center;gap:6px;font-size:10px;letter-spacing:.25px;color:#a0a0a0;margin:3px 0 24px;white-space:nowrap}
+.checkout-progress .current{color:#111;font-weight:700}
+.checkout-progress .done{color:#555}
+.checkout-progress .dash{height:1px;background:#dedede;flex:1;min-width:12px}
+.cart-item{display:grid;grid-template-columns:99px minmax(0,1fr);gap:15px;padding:16px 0;border-top:1px solid #e7e7e7;position:relative}
+.cart-item img{width:99px;height:126px;object-fit:cover;background:#f3f3f3}
+.cart-item h3{font-size:13px;line-height:1.35;font-weight:680;margin:1px 18px 5px 0}
+.cart-item .meta{font-size:11px;color:#777;line-height:1.5;margin:0 0 5px}
+.cart-item .unit-price{font-size:12px;font-weight:675;margin:7px 0 12px;line-height:1.4}
+.cart-controls{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:9px}
+.size-chip{display:inline-flex;align-items:center;gap:8px;border:1px solid #ddd;background:white;color:#111;min-height:32px;padding:0 10px;font-size:11px;cursor:pointer}
+.stepper{display:flex;align-items:center;height:34px;border:1px solid #ddd}
+.stepper button{background:#fff;border:0;width:33px;height:32px;font-size:19px;line-height:1;cursor:pointer}
+.stepper output{font-size:12px;min-width:21px;text-align:center;font-weight:600}
+.icon-remove{position:absolute;top:11px;right:0;border:0;background:transparent;font-size:22px;color:#777;width:28px;height:34px;cursor:pointer}
+.cart-summary{border-top:1px solid #111;margin-top:18px;padding-top:15px}
+.summary-row{display:flex;gap:12px;align-items:flex-start;justify-content:space-between;margin:0 0 12px;font-size:12px}
+.summary-row .muted{color:#888}.summary-row strong{font-size:12px;letter-spacing:-.15px;text-align:right}
+.summary-note{font-size:10.5px;color:#777;line-height:1.55;margin:12px 0 0}
+.checkout-bottom{background:#fff;padding:11px 19px calc(10px + env(safe-area-inset-bottom,0px));border-top:1px solid #e9e9e9;flex:0 0 auto}
+.checkout-bottom .summary-row{margin-bottom:9px}
+.checkout-bottom button,.checkout-bottom .extra-action{height:48px;min-height:48px;display:flex;align-items:center;justify-content:center;gap:10px}
+.checkout-bottom .secondary-action{margin-top:8px}
+.extra-action:disabled{background:#bdbdbd;cursor:not-allowed}
+.cart-empty{padding:45px 18px 38px;text-align:center;border-top:1px solid #ededed}
+.cart-empty svg{width:36px;height:36px;stroke:#111;fill:none;stroke-width:1.25}
+.cart-empty h2{font-size:18px;font-weight:640;letter-spacing:-.4px;margin:20px 0 8px}
+.cart-empty p{font-size:12px;line-height:1.65;color:#777;margin-bottom:21px}
+.section-title{font-size:15px;font-weight:680;margin:27px 0 15px;letter-spacing:-.25px}
+.field{margin-bottom:15px}
+.field label{display:block;font-size:11px;font-weight:630;margin-bottom:8px;letter-spacing:.05px}
+.field input,.field textarea{display:block;width:100%;border:1px solid #d9d9d9;border-radius:0;background:#fff;min-height:46px;padding:12px 13px;font-size:13px;outline:0;color:#111}
+.field textarea{resize:vertical;min-height:77px;max-height:140px;line-height:1.4}
+.field input:focus,.field textarea:focus{border-color:#111}
+.field input[aria-invalid=true]{border-color:#a52b36}
+.field .field-error{display:none;font-size:10px;color:#a52b36;padding-top:5px}
+.field.has-error .field-error{display:block}
+.pill-badge{display:inline-block;padding:5px 8px;border:1px solid #e3e3e3;font-size:9.5px;text-transform:uppercase;letter-spacing:.4px;color:#777}
+.checkout-notice{padding:14px 15px;background:#f6f6f6;margin:18px 0 16px;font-size:11px;color:#626262;line-height:1.6}
+.payment-option{display:flex;align-items:flex-start;gap:12px;border:1px solid #111;padding:15px 13px;margin:0 0 9px;cursor:pointer}
+.payment-option.disabled{border-color:#eee;opacity:.45;cursor:not-allowed}
+.payment-option input{margin:3px 0 0;accent-color:#111;width:16px;height:16px}
+.payment-option strong{font-size:12px;font-weight:670;display:block;margin-bottom:5px}
+.payment-option small{display:block;color:#777;font-size:10.5px;line-height:1.45}
+.payment-option .method-icon{width:21px;min-width:21px;height:21px;border:1px solid #111;display:flex;align-items:center;justify-content:center;font-size:11px;margin-left:auto}
+.payment-products{border-top:1px solid #e5e5e5;padding-top:8px}
+.payment-line{display:flex;align-items:flex-start;justify-content:space-between;gap:13px;margin:10px 0;font-size:11px;line-height:1.4}
+.payment-line span:last-child{white-space:nowrap;color:#777}
+.muted-price{color:#888!important;font-weight:550!important}
+.checkout-copy{font-size:11px;color:#787878;line-height:1.6;margin:14px 0}
+.order-preview{white-space:pre-wrap;word-break:break-word;background:#f7f7f7;padding:14px;font-size:11px;line-height:1.65;color:#444;max-height:210px;overflow:auto;border:1px solid #ececec}
+.modal-overlay{z-index:105}
+.modal-panel{max-height:min(84dvh,680px);overflow-y:auto}
+.modal-panel h2{padding-right:30px}
+.option-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:15px 0}
+.option-grid button{min-height:44px;border:1px solid #d8d8d8;background:#fff;color:#111;font-size:12px;cursor:pointer}
+.option-grid button.selected{background:#111;color:#fff;border-color:#111}
+.option-grid button:focus-visible{outline:2px solid #555;outline-offset:2px}
+.modal-panel .modal-note{font-size:11px;color:#888;line-height:1.6}
+.sheet-label{font-size:11px;color:#777;display:block;margin:5px 0 8px}
+.modal-panel .secondary{margin-top:8px}
+.modal-panel button{touch-action:manipulation}
+.qty-pop{font-size:10px;font-weight:600;color:#777}
+.toast{max-width:calc(100vw - 30px);width:max-content;bottom:calc(80px + env(safe-area-inset-bottom,0px));line-height:1.5}
+#extra-content{padding-bottom:5px}
+.detail-main{height:clamp(290px,47dvh,450px)}
+.detail-count{pointer-events:none}
+.size-block .right{min-height:42px;padding-left:8px;font-weight:600;color:#111}
+.size-block .label{font-size:12px}
+.buy-btn{min-height:48px}
+.buy-btn .mini-loader{opacity:.7}
+@media(max-width:360px){.nav-link{font-size:8.5px}.extra-section{padding-left:14px;padding-right:14px}.checkout-bottom{padding-left:14px;padding-right:14px}.cart-item{grid-template-columns:86px minmax(0,1fr);gap:10px}.cart-item img{width:86px;height:118px}.stepper button{width:28px}}
+@media(max-height:660px){.detail-main{height:clamp(230px,40dvh,300px)}.detail-info{padding-bottom:8px}.size-block{margin-top:10px;padding-top:7px}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+
 </style>
-<meta content="#ffffff" name="theme-color"/><meta content="yes" name="apple-mobile-web-app-capable"/><meta content="default" name="apple-mobile-web-app-status-bar-style"/><meta content="ANTKRIS — интерактивный прототип мобильного магазина одежды с вышивкой" name="description"/></head>
+<meta content="#ffffff" name="theme-color"/><meta content="yes" name="apple-mobile-web-app-capable"/><meta content="default" name="apple-mobile-web-app-status-bar-style"/><meta content="ANTKRIS — мобильный каталог и оформление заказа" name="description"/></head>
 <body>
 <svg aria-hidden="true" height="0" style="position:absolute" width="0">
 <symbol id="heart" viewbox="0 0 24 24"><path d="M20.5 8.4c0-2.7-2-4.7-4.6-4.7-1.6 0-3.1.8-3.9 2.2A4.6 4.6 0 0 0 8.1 3.7c-2.6 0-4.6 2-4.6 4.7 0 4.7 8.5 11.3 8.5 11.3s8.5-6.6 8.5-11.3Z"></path></symbol>
@@ -198,82 +291,137 @@ body{background:#fff;overflow:hidden}
 </div><div class="buy-area"><div class="buy-btn" data-action="inquiry" role="button" tabindex="0"><span>Уточнить наличие</span><svg><use href="#arrow-right"></use></svg></div></div><nav class="bottom-nav"><div class="nav-link" data-go="home" role="button" tabindex="0"><svg><use href="#home-icon"></use></svg>Главная</div><div class="nav-link" data-go="catalog" role="button" tabindex="0"><svg><use href="#grid-icon"></use></svg>Каталог</div><div class="nav-link" data-go="cart" role="button" tabindex="0"><svg><use href="#bag"></use></svg>Корзина</div><div class="nav-link" data-go="favorites" role="button" tabindex="0"><svg><use href="#heart"></use></svg>Избранное</div><div class="nav-link" data-go="profile" role="button" tabindex="0"><svg><use href="#person"></use></svg>Профиль</div></nav></main></div>
 <div class="preview-item" data-screen="extra"><main class="phone"><header class="topbar"><span class="top-left" data-action="back" role="button" tabindex="0"><svg viewbox="0 0 24 24"><use href="#chev-left"></use></svg>Назад</span><div class="wordmark" data-go="home">ANTKRIS</div><span class="top-icons"><span class="ui-icon" data-action="search" role="button" tabindex="0"><svg><use href="#search"></use></svg></span><span class="ui-icon" data-action="cart" role="button" tabindex="0"><svg><use href="#bag"></use></svg></span></span></header><div class="screen-scroll" id="extra-content"></div><nav class="bottom-nav"><div class="nav-link active" data-go="home" role="button" tabindex="0"><svg><use href="#home-icon"></use></svg>Главная</div><div class="nav-link" data-go="catalog" role="button" tabindex="0"><svg><use href="#grid-icon"></use></svg>Каталог</div><div class="nav-link" data-go="cart" role="button" tabindex="0"><svg><use href="#bag"></use></svg>Корзина</div><div class="nav-link" data-go="favorites" role="button" tabindex="0"><svg><use href="#heart"></use></svg>Избранное</div><div class="nav-link" data-go="profile" role="button" tabindex="0"><svg><use href="#person"></use></svg>Профиль</div></nav></main></div></div>
 <script>
+'use strict';
+/* ANTKRIS prototype — pricing and availability need seller confirmation. No real charge is made. */
 const PRODUCTS={
-  lilac:{id:'lilac',name:'Велюровый костюм',color:'Сиреневый',type:'suit',group:'Костюмы',price:'Цена по запросу',pictures:['assets/lilac.jpg'],description:'Сиреневый велюровый костюм с вышивкой.'},
-  burgundy:{id:'burgundy',name:'Велюровый костюм',color:'Бордовый',type:'suit',group:'Костюмы',price:'Цена по запросу',pictures:['assets/burgundy.jpg'],description:'Бордовый велюровый костюм с вышивкой.'},
-  hoodie:{id:'hoodie',name:'Худи «РОССИЯ»',color:'Чёрный / золотая вышивка',type:'hoodie',group:'Худи',price:'7 800 ₽*',pictures:['assets/hoodie_gold.jpg','assets/hoodie_russian.jpg'],description:'Чёрное худи с золотой вышивкой на спине.'},
-  tshirt:{id:'tshirt',name:'Футболка с вышивкой',color:'Чёрный',type:'tee',group:'Футболки',price:'Цена по запросу',pictures:['assets/black_tshirt.jpg'],description:'Чёрная футболка с вышивкой на спине.'}
+ lilac:{id:'lilac',name:'Велюровый костюм',color:'Сиреневый',type:'suit',group:'Костюмы',price:null,pictures:['assets/lilac.jpg'],description:'Сиреневый велюровый костюм с вышивкой.'},
+ burgundy:{id:'burgundy',name:'Велюровый костюм',color:'Бордовый',type:'suit',group:'Костюмы',price:null,pictures:['assets/burgundy.jpg'],description:'Бордовый велюровый костюм с вышивкой.'},
+ hoodie:{id:'hoodie',name:'Худи «РОССИЯ»',color:'Чёрный / золотая вышивка',type:'hoodie',group:'Худи',price:7800,stalePrice:true,pictures:['assets/hoodie_gold.jpg','assets/hoodie_russian.jpg'],description:'Чёрное худи с золотой вышивкой на спине.'},
+ tshirt:{id:'tshirt',name:'Футболка с вышивкой',color:'Чёрный',type:'tee',group:'Футболки',price:null,pictures:['assets/black_tshirt.jpg'],description:'Чёрная футболка с вышивкой на спине.'}
 };
 const tgURL='https://t.me/antkrisshop';
 const igURL='https://www.instagram.com/antkris_shop/';
-let screen='home',currentProduct='hoodie',filter='all',sortAZ=false,galleryIndex=0,requestedSize='';
-let lastScreen='catalog';
-let favourites=load('antkris_favs',[]),cart=load('antkris_cart',[]);
-function load(k,def){try {const d=JSON.parse(localStorage.getItem(k));return Array.isArray(d)?d:def}catch(e){return def}}
-function save(){try{localStorage.setItem('antkris_favs',JSON.stringify(favourites));localStorage.setItem('antkris_cart',JSON.stringify(cart))}catch(e){}}
-function escapeHTML(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
-function navigate(dest){if(dest==='detail')dest='product/'+currentProduct; if(dest==='home'&&location.hash==='#/home'){render();return}location.hash='#/'+dest;}
-function setHash(){const h=decodeURIComponent(location.hash.replace(/^#\/?/,''));const parts=h.split('/');const next=parts[0]||'home';if(next==='product'){currentProduct=PRODUCTS[parts[1]]?parts[1]:'hoodie';screen='detail'}else{screen=['home','catalog','cart','favorites','profile','search'].includes(next)?next:'home'}render();}
-function render(){document.querySelectorAll('.preview-item').forEach(el=>el.classList.toggle('is-active',el.dataset.screen===(['cart','favorites','profile','search'].includes(screen)?'extra':screen)));
- document.querySelectorAll('.nav-link').forEach(e=>e.classList.toggle('active',e.dataset.go===screen || (screen==='detail'&&e.dataset.go==='catalog')));
+const SIZES=['XS','S','M','L','XL','XXL'];
+const cleanSize=s=>String(s??'').trim().replace(/[^\p{L}\p{N}\s+\-]/gu,'').slice(0,20).toUpperCase();
+const ROUTES=['home','catalog','detail','cart','favorites','profile','search','checkout','payment'];
+let screen='home',lastProductScreen='catalog',currentProduct='hoodie',filter='all',sortAZ=false,galleryIndex=0;
+let currentSizes={};let searchTerm='';let keyboardFocusReturn=null;
+let cart=loadCart(),favourites=loadFavourites();
+let checkoutDraft={name:'',phone:'',city:'',comment:'',method:'agreement'};
+let reRenderScroll=false;
+const $=(s,root=document)=>root.querySelector(s);
+const $$=(s,root=document)=>Array.from(root.querySelectorAll(s));
+const esc=s=>String(s??'').replace(/[&<>"']/g,x=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[x]));
+const formatRub=n=>new Intl.NumberFormat('ru-RU').format(n)+' ₽';
+const itemPrice=p=>p.price===null?'Цена по запросу':formatRub(p.price)+(p.stalePrice?'*':'');
+const priceNote='* Цена 7 800 ₽ взята из публикации от 24.11.2025 и не подтверждена на сегодня.';
+function safeRead(key){try{return JSON.parse(localStorage.getItem(key)||'null')}catch{return null}}
+function loadFavourites(){const d=safeRead('antkris_favs');return Array.isArray(d)?[...new Set(d.filter(x=>typeof x==='string'&&PRODUCTS[x]))]:[]}
+function loadCart(){let d=safeRead('antkris_cart');if(!Array.isArray(d))return [];
+ const map=new Map();for(const entry of d){if(!entry||!PRODUCTS[entry.id])continue;const id=entry.id,size=cleanSize(entry.size),qty=Math.max(1,Math.min(10,Math.floor(Number(entry.qty)||1)));const key=id+'|'+size;if(map.has(key))map.get(key).qty=Math.min(10,map.get(key).qty+qty);else map.set(key,{id,size,qty});}
+ return [...map.values()];}
+function save(){try{localStorage.setItem('antkris_cart',JSON.stringify(cart));localStorage.setItem('antkris_favs',JSON.stringify(favourites));}catch{/* Storage may be disabled in embedded browsers. */}}
+function cartQty(){return cart.reduce((a,c)=>a+c.qty,0)}
+function cartKnownAmount(){return cart.reduce((a,c)=>a+(PRODUCTS[c.id]?.price||0)*c.qty,0)}
+function summaryRows(){const known=cartKnownAmount();const hasUnknown=cart.some(c=>PRODUCTS[c.id]?.price===null);return `<div class="cart-summary"><div class="summary-row"><span>Товары · ${cartQty()} шт.</span><strong>Стоимость уточняется</strong></div><div class="summary-row"><span class="muted">Доставка</span><strong class="muted-price">По согласованию</strong></div><p class="summary-note">Итоговая стоимость, наличие и доставка подтверждаются продавцом до оплаты. ${known?esc(priceNote):''}</p></div>`}
+function checkoutProgress(active){return `<div class="checkout-progress" aria-label="Этапы оформления"><span class="${active>1?'done':active===1?'current':''}">01 КОРЗИНА</span><span class="dash"></span><span class="${active>2?'done':active===2?'current':''}">02 ОФОРМЛЕНИЕ</span><span class="dash"></span><span class="${active===3?'current':''}">03 ОПЛАТА</span></div>`}
+function navigate(dest){if(dest==='detail')dest='product/'+currentProduct;const hash='#/'+dest;if(location.hash===hash){setHash();return;}location.hash=hash;}
+function isCheckoutDraftValid(){const n=checkoutDraft.name.trim(),c=checkoutDraft.city.trim(),digits=checkoutDraft.phone.replace(/\D/g,'').length;return n.length>=2&&c.length>=2&&digits>=10&&digits<=15}
+function setHash(){let h='';try{h=decodeURIComponent(location.hash.replace(/^#\/?/,''))}catch{h='home'}const [path,id]=h.split('/');if(path==='product'){currentProduct=PRODUCTS[id]?id:'hoodie';screen='detail'}else screen=ROUTES.includes(path)?path:'home';if(['checkout','payment'].includes(screen)&&!cart.length){screen='cart';history.replaceState(null,'','#/cart')}else if(screen==='payment'&&!isCheckoutDraftValid()){screen='checkout';history.replaceState(null,'','#/checkout')}render();}
+function goBack(){if(screen==='payment')navigate('checkout');else if(screen==='checkout')navigate('cart');else if(screen==='detail')navigate(lastProductScreen==='detail'?'catalog':lastProductScreen);else if(screen==='home')navigate('catalog');else navigate('home')}
+function render(){const target=['cart','favorites','profile','search','checkout','payment'].includes(screen)?'extra':screen;
+ $$('.preview-item').forEach(el=>el.classList.toggle('is-active',el.dataset.screen===target));
+ $$('.nav-link').forEach(e=>{const selected=e.dataset.go===screen||(screen==='detail'&&e.dataset.go==='catalog')||(['checkout','payment'].includes(screen)&&e.dataset.go==='cart');e.classList.toggle('active',selected);if(selected)e.setAttribute('aria-current','page');else e.removeAttribute('aria-current')});
  if(screen==='catalog')renderCatalog();
  if(screen==='detail')renderDetail();
- if(['cart','favorites','profile','search'].includes(screen))renderExtra();
- document.querySelector('.is-active .screen-scroll')?.scrollTo(0,0);
- if(window.Telegram?.WebApp){try{window.Telegram.WebApp.ready();window.Telegram.WebApp.expand();}catch(e){}}
+ if(['cart','favorites','profile','search','checkout','payment'].includes(screen))renderExtra();
+ updateBadges();
+ if(!reRenderScroll){$('.preview-item.is-active .screen-scroll')?.scrollTo(0,0)}reRenderScroll=false;
+ try{window.Telegram?.WebApp?.ready?.();window.Telegram?.WebApp?.expand?.()}catch{}
 }
-function renderCatalog(){document.querySelectorAll('.tab').forEach(e=>e.classList.toggle('active',e.dataset.filter===filter));const cards=[...document.querySelectorAll('.catalog-grid .product-card')]; cards.forEach(e=>{e.style.display=(filter==='all'||PRODUCTS[e.dataset.product].type===filter)?'':'none'});
- const grid=document.querySelector('.catalog-grid');cards.sort((a,b)=>{if(!sortAZ)return Object.keys(PRODUCTS).indexOf(a.dataset.product)-Object.keys(PRODUCTS).indexOf(b.dataset.product);return PRODUCTS[a.dataset.product].name.localeCompare(PRODUCTS[b.dataset.product].name,'ru')});cards.forEach(e=>grid.appendChild(e));
- document.querySelector('.catalog-toolbar .count').textContent=(filter==='all'?'Вся одежда':({suit:'Костюмы',hoodie:'Худи',tee:'Футболки'}[filter]))+' · '+cards.filter(e=>e.style.display!=='none').length;
- document.querySelector('.catalog-toolbar .sort').firstChild.textContent=sortAZ?'По названию ':'По умолчанию ';
- document.querySelectorAll('.fav').forEach(el=>el.classList.toggle('is-favorite',favourites.includes(el.dataset.favorite)));
+function updateBadges(){const count=cartQty();$$('.nav-link[data-go="cart"]').forEach(nav=>{nav.querySelector('.nav-count')?.remove();if(count){const e=document.createElement('span');e.className='nav-count';e.textContent=count>99?'99+':count;nav.appendChild(e)}nav.setAttribute('aria-label','Корзина, товаров '+count)});
+ $$('.top-icons [data-action="cart"]').forEach(nav=>{nav.querySelector('.top-count')?.remove();if(count){const e=document.createElement('span');e.className='top-count';e.textContent=count>99?'99+':count;nav.appendChild(e)}});
 }
-function renderDetail(){const p=PRODUCTS[currentProduct];if(!p)return;
- const el=document.querySelector('[data-screen="detail"]');const img=el.querySelector('.detail-main img');galleryIndex=0;img.src=p.pictures[0];img.alt=p.name;el.querySelector('.detail-kicker').textContent=p.group.toUpperCase()+' / ВЫШИВКА';
- el.querySelector('.detail-name h1').textContent=p.name;el.querySelector('.detail-name .price').textContent=p.price;el.querySelector('.detail-desc').textContent=p.description;
- el.querySelector('.detail-count').textContent='01 / '+String(p.pictures.length).padStart(2,'0');
- el.querySelector('.gallery-label').textContent=p.pictures.length+' ФОТО';
- el.querySelector('.gallery-dots').innerHTML=p.pictures.map((_,i)=>'<span class="'+(i===0?'on':'')+'"></span>').join('');
- el.querySelector('.size-block .right').firstChild.textContent=requestedSize?'Размер: '+requestedSize+' ':'Уточнить размер ';
- el.querySelector('.size-hint').textContent='Наличие и размеры уточняются у магазина.';el.querySelector('#detail-price-note').style.display=currentProduct==='hoodie'?'':'none';
- const f=el.querySelector('[data-action="favorite-current"] svg');f.style.fill=favourites.includes(currentProduct)?'#111':'none';
+function renderCatalog(){const tabs=$$('.tab');tabs.forEach(e=>{const a=e.dataset.filter===filter;e.classList.toggle('active',a);e.setAttribute('aria-pressed',String(a))});const cards=$$('.catalog-grid .product-card');cards.forEach(e=>{e.style.display=(filter==='all'||PRODUCTS[e.dataset.product].type===filter)?'':'none';const p=PRODUCTS[e.dataset.product];$('.card-price',e).textContent=itemPrice(p)});
+ const grid=$('.catalog-grid');cards.sort((a,b)=>sortAZ?PRODUCTS[a.dataset.product].name.localeCompare(PRODUCTS[b.dataset.product].name,'ru'):Object.keys(PRODUCTS).indexOf(a.dataset.product)-Object.keys(PRODUCTS).indexOf(b.dataset.product));cards.forEach(e=>grid.appendChild(e));
+ $('.catalog-toolbar .count').textContent=(filter==='all'?'Вся одежда':({suit:'Костюмы',hoodie:'Худи',tee:'Футболки'}[filter]))+' · '+cards.filter(e=>e.style.display!=='none').length;
+ $('.catalog-toolbar .sort').firstChild.textContent=sortAZ?'По названию ':'По умолчанию ';
+ $$('.fav').forEach(el=>el.classList.toggle('is-favorite',favourites.includes(el.dataset.favorite)));
 }
-function toggleFavorite(id){favourites=favourites.includes(id)?favourites.filter(x=>x!==id):[...favourites,id];save();if(screen==='favorites')renderExtra();else if(screen==='catalog')renderCatalog();else if(screen==='detail')renderDetail();toast(favourites.includes(id)?'Добавлено в избранное':'Удалено из избранного')}
-function galleryNext(){let p=PRODUCTS[currentProduct];if(p.pictures.length<2)return;galleryIndex=(galleryIndex+1)%p.pictures.length;const el=document.querySelector('[data-screen="detail"]');el.querySelector('.detail-main img').src=p.pictures[galleryIndex];el.querySelector('.detail-count').textContent=String(galleryIndex+1).padStart(2,'0')+' / '+String(p.pictures.length).padStart(2,'0');el.querySelectorAll('.gallery-dots span').forEach((e,i)=>e.classList.toggle('on',i===galleryIndex));}
-function cardRow(p,kind){return `<div class="extra-item" data-open-product="${p.id}"><img src="${p.pictures[0]}" alt="${escapeHTML(p.name)}"/><div><h3>${escapeHTML(p.name)}</h3><p>${escapeHTML(p.color)}</p><strong>${escapeHTML(p.price)}</strong></div><button class="remove" data-remove="${p.id}" data-remove-kind="${kind}" aria-label="Удалить">×</button></div>`}
-function renderExtra(){let html='';const items=Object.values(PRODUCTS);const pCurrent=PRODUCTS[currentProduct];if(screen==='favorites'){const pp=favourites.map(x=>PRODUCTS[x]).filter(Boolean);html=`<div class="extra-section"><div class="extra-badge">ANTKRIS / СОХРАНЁННОЕ</div><h1>Избранное</h1><p class="subtitle">Товары, которые вы отметили.</p>${pp.length?pp.map(p=>cardRow(p,'favorites')).join(''):'<div class="empty-state"><h2>Пока пусто</h2><p>Нажмите на сердечко в каталоге, чтобы сохранить понравившееся.</p></div>'}<button class="extra-action secondary" data-go="catalog">Перейти в каталог</button></div>`}
- if(screen==='cart'){const pp=cart.map(x=>PRODUCTS[x.id]).filter(Boolean);html=`<div class="extra-section"><div class="extra-badge">ANTKRIS / ЗАПРОС</div><h1>Корзина</h1><p class="subtitle">Демо-список выбранных товаров. Оформление заказа и оплата пока не подключены.</p>${pp.length?pp.map(p=>cardRow(p,'cart')).join(''):'<div class="empty-state"><h2>Пока нет товаров</h2><p>Добавьте товары в запрос с карточки товара.</p></div>'}${pp.length?'<button class="extra-action" data-action="open-telegram">Связаться с магазином в Telegram</button><p class="demo-note">Корзина не передаётся автоматически в Telegram. Уточните выбранные товары у продавца.</p>':''}<hr class="extra-divider"/><button class="extra-action secondary" data-go="catalog">Продолжить покупки</button></div>`}
- if(screen==='profile'){html=`<div class="extra-section"><div class="extra-badge">ОДЕЖДА С ВЫШИВКОЙ · КРАСНОЯРСК</div><h1>ANTKRIS</h1><p class="subtitle">Связь с магазином и информация о заказе.</p><a class="extra-list-link" href="${tgURL}" target="_blank" rel="noopener">Магазин в Telegram<span>↗</span></a><a class="extra-list-link" href="${igURL}" target="_blank" rel="noopener">Instagram @antkris_shop<span>↗</span></a><div class="empty-state"><h2>Личный кабинет</h2><p>Авторизация, история заказов и оформление покупки появятся после подключения серверной части. Сейчас это интерактивный прототип.</p></div><button class="extra-action secondary" data-go="catalog">Каталог одежды</button></div>`}
- if(screen==='search'){html=`<div class="extra-section"><div class="extra-badge">ANTKRIS / ПОИСК</div><h1>Поиск</h1><input id="product-search" class="search-input" type="search" autocomplete="off" placeholder="Название или цвет" aria-label="Поиск товаров"/><div class="result-list" id="search-results">${items.map(p=>cardRow(p,'search')).join('')}</div></div>`}
- document.getElementById('extra-content').innerHTML=html;
- if(screen==='search'){const input=document.getElementById('product-search');input.addEventListener('input',()=>{const q=input.value.toLowerCase().trim();const found=items.filter(p=>[p.name,p.color,p.group].join(' ').toLowerCase().includes(q));document.getElementById('search-results').innerHTML=found.length?found.map(p=>cardRow(p,'search')).join(''):'<div class="empty-state"><h2>Ничего не найдено</h2><p>Попробуйте другое слово.</p></div>';});}
+function renderDetail(){const p=PRODUCTS[currentProduct];const el=$('[data-screen="detail"]');galleryIndex=0;const img=$('.detail-main img',el);img.src=p.pictures[0];img.alt=p.name;$('.detail-kicker',el).textContent=p.group.toUpperCase()+' / ВЫШИВКА';$('.detail-name h1',el).textContent=p.name;$('.detail-name .price',el).textContent=itemPrice(p);$('.detail-desc',el).textContent=p.description;
+ $('.detail-count',el).textContent='01 / '+String(p.pictures.length).padStart(2,'0');$('.gallery-label',el).textContent=p.pictures.length+' ФОТО';$('.gallery-dots',el).innerHTML=p.pictures.map((_,i)=>'<span class="'+(i===0?'on':'')+'"></span>').join('');
+ $('.size-block .right',el).firstChild.textContent=currentSizes[currentProduct]?'Размер: '+currentSizes[currentProduct]+' ':'Выбрать размер ';
+ $('.size-hint',el).textContent='Выберите желаемый размер. Наличие подтвердит магазин.';
+ $('#detail-price-note',el).style.display=p.stalePrice?'':'none';
+ $('[data-action="favorite-current"] svg',el).style.fill=favourites.includes(currentProduct)?'#111':'none';
+ $('.buy-btn span',el).textContent='Добавить в корзину';
 }
-function modal(title,desc,body){const old=document.querySelector('.modal-overlay');if(old)old.remove();const el=document.createElement('div');el.className='modal-overlay';el.innerHTML=`<div class="modal-panel" role="dialog" aria-modal="true" aria-label="${escapeHTML(title)}"><button class="modal-close" aria-label="Закрыть" data-action="close-modal">×</button><h2>${escapeHTML(title)}</h2><p>${escapeHTML(desc)}</p>${body}</div>`;el.addEventListener('click',e=>{if(e.target===el)el.remove()});document.body.appendChild(el);return el;}
-function openSize(){let m=modal('Уточнить размер','На сайте не указана актуальная размерная сетка. Можете вписать свой размер для запроса продавцу.',`<input id="size-input" type="text" maxlength="20" placeholder="Ваш размер (например, M или 48)" value="${escapeHTML(requestedSize)}"/><button class="extra-action" data-action="save-size">Сохранить для запроса</button>`);m.querySelector('#size-input').focus()}
-function openInquiry(){let m=modal('Запросить наличие','Это прототип: заказ не оформляется и оплата не проводится. Можно добавить товар в список или связаться с магазином.',`<button class="extra-action" data-action="add-cart">Добавить в запрос</button><button class="extra-action secondary" data-action="open-telegram">Открыть Telegram магазина</button>`);}
-let toastId=0;function toast(msg){const n=document.createElement('div');n.className='toast';n.textContent=msg;document.querySelector('.toast')?.remove();document.body.appendChild(n);const id=++toastId;setTimeout(()=>{if(id===toastId)n.remove()},2200)}
-function openOut(url){if(window.Telegram?.WebApp?.openTelegramLink&&url.startsWith('https://t.me/'))window.Telegram.WebApp.openTelegramLink(url);else window.open(url,'_blank','noopener,noreferrer')}
-function closeModal(){document.querySelector('.modal-overlay')?.remove();}
-function handleAction(a){switch(a){case'home-catalog': navigate('catalog');break;case'back':if(screen==='detail')navigate(lastScreen==='detail'?'catalog':lastScreen);else if(screen==='home')navigate('catalog');else navigate('home');break;
- case'search':navigate('search');break;case'cart':navigate('cart');break;case'favorite-current':toggleFavorite(currentProduct);break;case'menu':modal('ANTKRIS','Магазин одежды с вышивкой.',`<button class="extra-action secondary" data-go="catalog">Каталог</button><button class="extra-action secondary" data-go="profile">Контакты</button>`);break;
- case'filters':modal('Категории','Выберите категорию товаров.',`<button class="extra-action secondary" data-set-filter="all">Вся одежда</button><button class="extra-action secondary" data-set-filter="suit">Костюмы</button><button class="extra-action secondary" data-set-filter="hoodie">Худи</button><button class="extra-action secondary" data-set-filter="tee">Футболки</button>`);break;
- case'sort':sortAZ=!sortAZ;renderCatalog();break;case'size':openSize();break;case'gallery':galleryNext();break;case'inquiry':openInquiry();break;
- case'close-modal':closeModal();break;case'save-size':requestedSize=document.querySelector('#size-input')?.value?.trim()||'';closeModal();renderDetail();toast('Размер сохранён для запроса');break;
- case'add-cart':if(!cart.some(x=>x.id===currentProduct)){cart.push({id:currentProduct,size:requestedSize});save();}closeModal();toast('Товар добавлен в запрос');break;
- case'open-telegram':closeModal();openOut(tgURL);break;}}
-document.addEventListener('click',e=>{
- let el=e.target.closest('[data-remove]');if(el){e.stopPropagation();const id=el.dataset.remove;if(el.dataset.removeKind==='favorites')favourites=favourites.filter(x=>x!==id);else if(el.dataset.removeKind==='cart')cart=cart.filter(x=>x.id!==id);save();renderExtra();return;}
- el=e.target.closest('[data-favorite]');if(el){e.stopPropagation();toggleFavorite(el.dataset.favorite);return;}
- el=e.target.closest('[data-set-filter]');if(el){filter=el.dataset.setFilter;closeModal();navigate('catalog');renderCatalog();return;}
- el=e.target.closest('[data-category]');if(el){filter=el.dataset.category;navigate('catalog');renderCatalog();return;}
- el=e.target.closest('[data-filter]');if(el){filter=el.dataset.filter;renderCatalog();return;}
- el=e.target.closest('[data-open-product], [data-product]');if(el){lastScreen=screen;currentProduct=el.dataset.openProduct||el.dataset.product;requestedSize='';navigate('detail');return;}
- el=e.target.closest('[data-go]');if(el){closeModal();navigate(el.dataset.go);return;}
- el=e.target.closest('[data-action]');if(el){handleAction(el.dataset.action);return;}
- });
-document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();if((e.key==='Enter'||e.key===' ')&&e.target.getAttribute('role')==='button'){e.preventDefault();e.target.click();}});
-let startX=null;document.querySelector('[data-screen="detail"] .detail-main').addEventListener('touchstart',e=>{startX=e.touches[0].clientX},{passive:true});
-document.querySelector('[data-screen="detail"] .detail-main').addEventListener('touchend',e=>{if(startX!=null&&Math.abs(e.changedTouches[0].clientX-startX)>35){galleryNext();startX=null;}},{passive:true});
-window.addEventListener('hashchange',setHash);
-window.addEventListener('DOMContentLoaded',setHash);
+function galleryNext(dir=1){const p=PRODUCTS[currentProduct];if(p.pictures.length<2)return;galleryIndex=(galleryIndex+dir+p.pictures.length)%p.pictures.length;const el=$('[data-screen="detail"]');$('.detail-main img',el).src=p.pictures[galleryIndex];$('.detail-count',el).textContent=String(galleryIndex+1).padStart(2,'0')+' / '+String(p.pictures.length).padStart(2,'0');$$('.gallery-dots span',el).forEach((e,i)=>e.classList.toggle('on',i===galleryIndex));}
+function toggleFavorite(id){if(!PRODUCTS[id])return;favourites=favourites.includes(id)?favourites.filter(x=>x!==id):[...favourites,id];save();if(screen==='favorites'||screen==='catalog'||screen==='detail')render();toast(favourites.includes(id)?'Добавлено в избранное':'Удалено из избранного')}
+function validateCartSize(){const i=cart.findIndex(x=>!x.size);if(i>=0){toast('Укажите размер для каждого товара');openSizePicker('cart',cart[i].id,i);return false}return true}
+function addCart(id,size){if(!PRODUCTS[id])return;size=cleanSize(size);if(!size){openSizePicker('add',id);return}let entry=cart.find(x=>x.id===id&&x.size===size);if(entry)entry.qty=Math.min(10,entry.qty+1);else cart.push({id,size,qty:1});currentSizes[id]=size;save();updateBadges();closeModal();toast('Добавлено в корзину');renderDetail();}
+function removeCart(idx){if(!cart[idx])return;cart.splice(idx,1);save();render();}
+function changeQty(idx,delta){if(!cart[idx])return;cart[idx].qty=Math.max(1,Math.min(10,cart[idx].qty+delta));save();reRenderScroll=true;render();}
+function changeSize(idx,size){if(!cart[idx])return;size=cleanSize(size);if(!size)return;const src=cart[idx];const found=cart.find((x,i)=>i!==idx&&x.id===src.id&&x.size===size);if(found)found.qty=Math.min(10,found.qty+src.qty),cart.splice(idx,1);else src.size=size;save();closeModal();reRenderScroll=true;render();}
+function rowProduct(p,kind){const selected=favourites.includes(p.id);return `<div class="extra-item" data-open-product="${p.id}" role="button" tabindex="0"><img src="${p.pictures[0]}" alt="${esc(p.name)}" loading="lazy"/><div><h3>${esc(p.name)}</h3><p>${esc(p.color)}</p><strong>${esc(itemPrice(p))}</strong></div>${kind==='favorites'?`<button class="remove" type="button" data-remove-favorite="${p.id}" aria-label="Удалить из избранного">×</button>`:''}</div>`}
+function cartItemHTML(c,i){const p=PRODUCTS[c.id];return `<article class="cart-item" data-item-index="${i}"><img src="${p.pictures[0]}" alt="${esc(p.name)}" data-open-product="${p.id}" loading="lazy"/><div><h3>${esc(p.name)}</h3><p class="meta">${esc(p.color)}</p><div class="unit-price">${esc(itemPrice(p))}</div><div class="cart-controls"><button class="size-chip" type="button" data-edit-size="${i}" aria-label="Изменить размер">${esc(c.size)} <span aria-hidden="true">⌄</span></button><div class="stepper" aria-label="Количество"><button type="button" data-qty="${i}" data-delta="-1" aria-label="Уменьшить количество">−</button><output aria-live="polite">${c.qty}</output><button type="button" data-qty="${i}" data-delta="1" aria-label="Увеличить количество" ${c.qty>=10?'disabled':''}>+</button></div></div></div><button class="icon-remove" type="button" data-remove-cart="${i}" aria-label="Удалить ${esc(p.name)} из корзины">×</button></article>`}
+function setStickyFooter(inner){const phone=$('[data-screen="extra"] .phone');$('.checkout-bottom',phone)?.remove();if(!inner)return;const foot=document.createElement('div');foot.className='checkout-bottom';foot.innerHTML=inner;phone.insertBefore(foot,$('[data-screen="extra"] .bottom-nav'));}
+function renderExtra(){const area=$('#extra-content');setStickyFooter(null);const items=Object.values(PRODUCTS);
+ if(screen==='cart'){
+  area.innerHTML=`<section class="extra-section"><div class="extra-badge">ANTKRIS / ПОКУПКИ</div><h1>Корзина <span class="qty-pop">${cartQty()}</span></h1>${checkoutProgress(1)}${cart.length?cart.map(cartItemHTML).join('')+summaryRows()+'<p class="checkout-copy">Размеры и цены требуют подтверждения. До подтверждения магазином заказ не считается оплаченным.</p>':`<div class="cart-empty"><svg viewBox="0 0 24 24"><path d="M5 8h14l1 13H4L5 8Zm4 0V6a3 3 0 0 1 6 0v2"/></svg><h2>Корзина пуста</h2><p>Выберите понравившуюся вещь, укажите размер и добавьте её сюда.</p><button class="extra-action" type="button" data-go="catalog">Перейти в каталог</button></div>`}</section>`;
+  if(cart.length)setStickyFooter(`<div class="summary-row"><span>Промежуточная стоимость</span><strong>Уточняется</strong></div><button class="extra-action" type="button" data-go="checkout">Перейти к оформлению <span aria-hidden="true">→</span></button>`);
+ }
+ if(screen==='checkout'){
+  if(!cart.length){navigate('cart');return}
+  area.innerHTML=`<section class="extra-section"><div class="extra-badge">ANTKRIS / ЗАКАЗ</div><h1>Оформление</h1>${checkoutProgress(2)}<h2 class="section-title">Ваши данные</h2><form id="checkout-form" novalidate><div class="field"><label for="buyer-name">Имя *</label><input id="buyer-name" name="name" type="text" autocomplete="name" maxlength="80" placeholder="Как к вам обращаться" value="${esc(checkoutDraft.name)}" required/><div class="field-error">Введите имя</div></div><div class="field"><label for="buyer-phone">Номер телефона *</label><input id="buyer-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" maxlength="24" placeholder="+7 999 123-45-67" value="${esc(checkoutDraft.phone)}" required/><div class="field-error">Введите номер: от 10 до 15 цифр</div></div><div class="field"><label for="buyer-city">Город / населённый пункт *</label><input id="buyer-city" name="city" type="text" autocomplete="address-level2" maxlength="90" placeholder="Для уточнения доставки" value="${esc(checkoutDraft.city)}" required/><div class="field-error">Укажите город</div></div><div class="field"><label for="buyer-comment">Комментарий к заказу</label><textarea id="buyer-comment" name="comment" maxlength="300" placeholder="Пожелания по заказу">${esc(checkoutDraft.comment)}</textarea></div></form><h2 class="section-title">Доставка</h2><div class="payment-option" style="border-color:#dadada;cursor:default"><div><strong>По согласованию с магазином</strong><small>Способ, стоимость и срок доставки уточняются продавцом.</small></div></div><p class="checkout-notice">Это тестовый интерфейс. Данные не отправляются на сервер. На следующем шаге можно скопировать состав заказа и передать продавцу в Telegram.</p>${summaryRows()}</section>`;
+  setStickyFooter('<button class="extra-action" type="button" data-action="proceed-payment">Перейти к оплате <span aria-hidden="true">→</span></button>');
+ }
+ if(screen==='payment'){
+  if(!cart.length){navigate('cart');return}
+  area.innerHTML=`<section class="extra-section"><div class="extra-badge">ANTKRIS / ФИНАЛЬНЫЙ ШАГ</div><h1>Оплата</h1>${checkoutProgress(3)}<h2 class="section-title">Способ оплаты</h2><label class="payment-option"><input type="radio" name="pay-method" checked value="agreement"/><div><strong>Согласовать с магазином</strong><small>Продавец подтвердит цены, наличие и предложит способ оплаты.</small></div><span class="method-icon">✓</span></label><div class="payment-option disabled" aria-disabled="true"><input type="radio" disabled/><div><strong>Банковской картой / СБП</strong><small>Онлайн-оплата пока не подключена. Платёжных реквизитов здесь нет.</small></div></div><h2 class="section-title">Состав заказа</h2><div class="payment-products">${cart.map(c=>{const p=PRODUCTS[c.id];return `<div class="payment-line"><span>${esc(p.name)} · ${esc(c.size)} × ${c.qty}</span><span>${esc(itemPrice(p))}</span></div>`}).join('')}</div>${summaryRows()}<h2 class="section-title">Данные покупателя</h2><div class="payment-line"><span>${esc(checkoutDraft.name)}<br>${esc(checkoutDraft.phone)}<br>${esc(checkoutDraft.city)}</span><button class="size-chip" data-go="checkout" type="button">Изменить</button></div><div class="checkout-notice"><strong>Оплата не списывается.</strong> Магазин пока не подключил эквайринг и сервер заказов. Нажмите ниже, чтобы подготовить сообщение продавцу; только после его подтверждения можно согласовать оплату.</div><details><summary style="font-size:12px;cursor:pointer;padding:10px 0">Посмотреть текст заказа</summary><div class="order-preview">${esc(orderText())}</div></details></section>`;
+  setStickyFooter('<button class="extra-action" type="button" data-action="send-inquiry">Скопировать заказ и открыть Telegram <span aria-hidden="true">↗</span></button><button class="extra-action secondary secondary-action" type="button" data-action="copy-order">Только скопировать заказ</button>');
+ }
+ if(screen==='favorites'){
+  const products=favourites.map(id=>PRODUCTS[id]).filter(Boolean);
+  area.innerHTML=`<section class="extra-section"><div class="extra-badge">ANTKRIS / СОХРАНЁННОЕ</div><h1>Избранное</h1><p class="subtitle">Товары, которые вы отметили.</p>${products.length?products.map(p=>rowProduct(p,'favorites')).join(''):'<div class="empty-state"><h2>Пока пусто</h2><p>Нажмите на сердечко в каталоге.</p></div>'}<button class="extra-action secondary" type="button" data-go="catalog">Перейти в каталог</button></section>`;
+ }
+ if(screen==='profile'){
+  area.innerHTML=`<section class="extra-section"><div class="extra-badge">ОДЕЖДА С ВЫШИВКОЙ · КРАСНОЯРСК</div><h1>ANTKRIS</h1><p class="subtitle">Контакты бренда и поддержка по заказам.</p><a class="extra-list-link" href="${tgURL}" target="_blank" rel="noopener noreferrer">Магазин в Telegram<span>↗</span></a><a class="extra-list-link" href="${igURL}" target="_blank" rel="noopener noreferrer">Instagram @antkris_shop<span>↗</span></a><div class="empty-state"><h2>Личный кабинет</h2><p>История заказов и авторизация появятся после подключения сервера. В этом прототипе корзина и избранное хранятся на вашем устройстве.</p></div><button class="extra-action secondary" type="button" data-go="catalog">Каталог одежды</button></section>`;
+ }
+ if(screen==='search'){
+  area.innerHTML=`<section class="extra-section"><div class="extra-badge">ANTKRIS / ПОИСК</div><h1>Поиск</h1><input id="product-search" class="search-input" type="search" autocomplete="off" placeholder="Название или цвет" aria-label="Поиск товаров" value="${esc(searchTerm)}"/><div class="result-list" id="search-results"></div></section>`;renderSearch();
+ }
+}
+function renderSearch(){const list=$('#search-results');if(!list)return;const q=searchTerm.toLocaleLowerCase('ru').trim();const items=Object.values(PRODUCTS).filter(p=>[p.name,p.color,p.group,p.description].join(' ').toLocaleLowerCase('ru').includes(q));list.innerHTML=items.length?items.map(p=>rowProduct(p,'search')).join(''):'<div class="empty-state"><h2>Ничего не найдено</h2><p>Попробуйте другое слово.</p></div>'}
+function modal(title,description,body){closeModal();keyboardFocusReturn=document.activeElement;const div=document.createElement('div');div.className='modal-overlay';div.innerHTML=`<div class="modal-panel" role="dialog" aria-modal="true" aria-label="${esc(title)}"><button class="modal-close" type="button" aria-label="Закрыть" data-action="close-modal">×</button><h2>${esc(title)}</h2><p>${esc(description)}</p>${body}</div>`;div.addEventListener('click',e=>{if(e.target===div)closeModal()});document.body.appendChild(div);$('.modal-close',div).focus();return div}
+function closeModal(){const m=$('.modal-overlay');if(m){m.remove();if(keyboardFocusReturn?.isConnected)keyboardFocusReturn.focus();keyboardFocusReturn=null}}
+function openSizePicker(mode='detail',id=currentProduct,idx=-1){const size=idx>=0?cart[idx]?.size||'':currentSizes[id]||'';const common=SIZES.map(s=>`<button type="button" class="${s===size?'selected':''}" data-size-choice="${s}" aria-pressed="${s===size}">${s}</button>`).join('');const div=modal('Выберите размер','Укажите желаемый размер. Это запрос: наличие и размерная сетка пока не подтверждены.',`<div class="option-grid">${common}</div><label class="sheet-label" for="size-custom">Другой размер (например, 48)</label><input id="size-custom" maxlength="20" placeholder="Введите размер" value="${esc(SIZES.includes(size)?'':size)}"/><p class="modal-note">Мы не заявляем, что выбранный размер есть в наличии.</p><button class="extra-action" type="button" data-action="confirm-size">${mode==='add'?'Добавить в корзину':'Сохранить размер'}</button>`);div.dataset.mode=mode;div.dataset.product=id;div.dataset.index=idx;div.dataset.chosen=size;}
+function confirmSize(){const m=$('.modal-overlay');if(!m)return;const input=$('#size-custom',m);let size=cleanSize(input.value)||cleanSize(m.dataset.chosen);if(!size){input.focus();input.setAttribute('aria-invalid','true');toast('Выберите или введите размер');return}if(m.dataset.mode==='cart'){changeSize(Number(m.dataset.index),size);toast('Размер изменён');return}currentSizes[m.dataset.product]=size;if(m.dataset.mode==='add'){addCart(m.dataset.product,size);return}closeModal();renderDetail();toast('Размер выбран');}
+let toastTimer;function toast(msg){$('.toast')?.remove();const e=document.createElement('div');e.className='toast';e.role='status';e.textContent=msg;document.body.appendChild(e);clearTimeout(toastTimer);toastTimer=setTimeout(()=>e.remove(),2600)}
+function validateCheckout(){const name=checkoutDraft.name.trim(),phone=checkoutDraft.phone.trim(),city=checkoutDraft.city.trim();const problems={name:name.length<2,phone:phone.replace(/\D/g,'').length<10||phone.replace(/\D/g,'').length>15,city:city.length<2};for(const [key,bad] of Object.entries(problems)){const input=$(`[name="${key}"]`);if(input){input.setAttribute('aria-invalid',String(bad));input.closest('.field').classList.toggle('has-error',bad)}}if(Object.values(problems).some(Boolean)){const first=Object.keys(problems).find(k=>problems[k]);$(`[name="${first}"]`)?.focus();toast('Проверьте обязательные поля');return false}return true}
+function orderText(){const lines=['Здравствуйте! Хочу уточнить возможность оформления заказа ANTKRIS:',''];for(const c of cart){const p=PRODUCTS[c.id];lines.push(`• ${p.name} (${p.color}) — размер ${c.size}, ${c.qty} шт.; ${itemPrice(p)}`)}lines.push('','Имя: '+checkoutDraft.name,'Телефон: '+checkoutDraft.phone,'Город: '+checkoutDraft.city);if(checkoutDraft.comment.trim())lines.push('Комментарий: '+checkoutDraft.comment.trim());lines.push('','Пожалуйста, подтвердите актуальные цены, наличие, доставку и порядок оплаты.');return lines.join('\n')}
+function copyOrder(){const text=orderText();let success=false;const field=document.createElement('textarea');field.value=text;field.style.position='fixed';field.style.opacity='0';field.style.left='-9999px';document.body.appendChild(field);field.select();try{success=document.execCommand('copy')}catch{}field.remove();if(!success&&navigator.clipboard?.writeText){navigator.clipboard.writeText(text).then(()=>toast('Заказ скопирован')).catch(()=>showCopyModal(text));return true}if(!success){showCopyModal(text);return false}toast('Заказ скопирован. Вставьте его в чат магазина');return true}
+function showCopyModal(text){const m=modal('Текст заказа','Скопируйте сообщение вручную и отправьте его магазину.',`<textarea id="manual-order" style="width:100%;min-height:210px" readonly>${esc(text)}</textarea><button type="button" class="extra-action" data-action="copy-manual">Выделить текст</button><button type="button" class="extra-action secondary" data-action="open-telegram">Перейти в Telegram</button>`);$('#manual-order',m).focus()}
+function openOut(url){try{if(window.Telegram?.WebApp?.openTelegramLink&&url.startsWith('https://t.me/')){window.Telegram.WebApp.openTelegramLink(url);return}}catch{}const w=window.open(url,'_blank','noopener,noreferrer');if(!w)toast('Откройте: '+url)}
+function handleAction(action){switch(action){case'home-catalog':navigate('catalog');break;case'back':goBack();break;case'search':navigate('search');break;case'cart':navigate('cart');break;case'favorite-current':toggleFavorite(currentProduct);break;case'menu':modal('ANTKRIS','Одежда с вышивкой.',`<button class="extra-action secondary" data-go="catalog">Каталог</button><button class="extra-action secondary" data-go="profile">Контакты</button>`);break;case'filters':modal('Категории','Выберите интересующие товары.',`<button class="extra-action secondary" data-set-filter="all">Вся одежда</button><button class="extra-action secondary" data-set-filter="suit">Костюмы</button><button class="extra-action secondary" data-set-filter="hoodie">Худи</button><button class="extra-action secondary" data-set-filter="tee">Футболки</button>`);break;case'sort':sortAZ=!sortAZ;renderCatalog();break;case'size':openSizePicker('detail');break;case'gallery':galleryNext();break;case'inquiry':addCart(currentProduct,currentSizes[currentProduct]);break;case'close-modal':closeModal();break;case'confirm-size':confirmSize();break;case'proceed-payment':if(validateCheckout())navigate('payment');break;case'copy-order':copyOrder();break;case'send-inquiry':if(copyOrder())openOut(tgURL);break;case'copy-manual':$('#manual-order')?.select();break;case'open-telegram':openOut(tgURL);break;}}
+document.addEventListener('click',e=>{let el=e.target.closest('[data-remove-cart]');if(el){removeCart(Number(el.dataset.removeCart));return}
+ el=e.target.closest('[data-remove-favorite]');if(el){toggleFavorite(el.dataset.removeFavorite);return}
+ el=e.target.closest('[data-qty]');if(el){changeQty(Number(el.dataset.qty),Number(el.dataset.delta));return}
+ el=e.target.closest('[data-edit-size]');if(el){const i=Number(el.dataset.editSize);openSizePicker('cart',cart[i]?.id,i);return}
+ el=e.target.closest('[data-size-choice]');if(el){const m=$('.modal-overlay');m.dataset.chosen=el.dataset.sizeChoice;$$('[data-size-choice]',m).forEach(b=>{b.classList.toggle('selected',b===el);b.setAttribute('aria-pressed',String(b===el))});$('#size-custom',m).value='';return}
+ el=e.target.closest('[data-favorite]');if(el){e.stopPropagation();toggleFavorite(el.dataset.favorite);return}
+ el=e.target.closest('[data-set-filter]');if(el){filter=el.dataset.setFilter;closeModal();navigate('catalog');renderCatalog();return}
+ el=e.target.closest('[data-category]');if(el){filter=el.dataset.category;navigate('catalog');return}
+ el=e.target.closest('[data-filter]');if(el){filter=el.dataset.filter;renderCatalog();return}
+ el=e.target.closest('[data-open-product], .product-card[data-product]');if(el){lastProductScreen=screen==='detail'?'catalog':screen;currentProduct=el.dataset.openProduct||el.dataset.product;navigate('detail');return}
+ el=e.target.closest('[data-go]');if(el){if(el.dataset.go==='checkout'&&!validateCartSize())return;closeModal();navigate(el.dataset.go);return}
+ el=e.target.closest('[data-action]');if(el){handleAction(el.dataset.action);return}
+});
+document.addEventListener('input',e=>{if(e.target.id==='product-search'){searchTerm=e.target.value;renderSearch();return}if(e.target.closest('#checkout-form')){checkoutDraft[e.target.name]=e.target.value;e.target.setAttribute('aria-invalid','false');e.target.closest('.field')?.classList.remove('has-error')}});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeModal();return}if(e.key==='Tab'&&$('.modal-overlay')){const foc=$$('button,input,textarea,select,[tabindex]:not([tabindex="-1"])',$('.modal-overlay')).filter(x=>!x.disabled);if(foc.length){const first=foc[0],last=foc.at(-1);if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus()}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus()}}}
+ if((e.key==='Enter'||e.key===' ')&&e.target.getAttribute('role')==='button'){e.preventDefault();e.target.click()}
+});
+let startX=null,moved=false;const gallery=$('[data-screen="detail"] .detail-main');gallery.addEventListener('touchstart',e=>{startX=e.touches[0].clientX;moved=false},{passive:true});gallery.addEventListener('touchend',e=>{if(startX===null)return;const diff=e.changedTouches[0].clientX-startX;if(Math.abs(diff)>35){galleryNext(diff>0?-1:1);moved=true}startX=null},{passive:true});gallery.addEventListener('click',e=>{if(moved){e.stopPropagation();moved=false}} ,true);
+window.addEventListener('hashchange',setHash);window.addEventListener('DOMContentLoaded',setHash);
+
 </script></body></html>
