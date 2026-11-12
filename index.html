@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ANTKRIS — каталог одежды с вышивкой | Прототип</title>
+<style>
+@font-face{font-family:'Inter';src:local('Inter');font-weight:100 900;font-style:normal}
+*{box-sizing:border-box}html,body{margin:0}body{font-family:Inter,'Arial',sans-serif;background:#ececec;color:#111; -webkit-font-smoothing:antialiased}
+:root{--ink:#111;--muted:#858585;--hair:#ececec;--white:#fff}
+.preview{display:flex;gap:28px;align-items:flex-start;padding:52px;justify-content:center;min-width:1240px}
+.preview-item{width:390px;flex:0 0 390px}
+.preview-caption{height:29px;margin-bottom:14px;display:flex;align-items:center;justify-content:space-between;font-size:11px;font-weight:600;letter-spacing:1.1px;text-transform:uppercase;color:#494949}
+.preview-caption span:last-child{font-weight:400;color:#7c7c7c}
+.phone{position:relative;width:390px;height:844px;background:#fff;overflow:hidden;isolation:isolate;box-shadow:0 2px 3px #00000005}
+.status{height:41px;padding:15px 24px 0;display:flex;justify-content:space-between;align-items:flex-start;color:#111;font-size:14px;font-weight:650;letter-spacing:-.3px}
+.status-right{display:flex;align-items:center;gap:5px}.status-right svg{display:block}
+.topbar{height:53px;display:flex;align-items:center;justify-content:space-between;padding:0 17px;position:relative;border-bottom:1px solid #f1f1f1}
+.wordmark{position:absolute;left:50%;transform:translateX(-50%);font-size:19px;line-height:1;font-weight:790;letter-spacing:1.15px}
+.top-left{display:flex;align-items:center;gap:5px;font-size:11px;color:#777;font-weight:520}
+.top-left svg{width:19px;height:19px;stroke:#444;stroke-width:1.8;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.top-icons{display:flex;gap:17px;align-items:center}
+.ui-icon{display:inline-flex;width:20px;height:20px;align-items:center;justify-content:center}
+.ui-icon svg{width:20px;height:20px;stroke:#171717;stroke-width:1.65;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.eyebrow{font-size:9.5px;letter-spacing:1.45px;text-transform:uppercase;font-weight:600;color:#777}
+.home-lead{padding:21px 19px 0}
+.home-lead .row{display:flex;align-items:center;justify-content:space-between}
+.home-lead .edition{font-size:9.5px;color:#aaa;letter-spacing:1.05px}
+.home-lead h1{font-size:33px;font-weight:640;letter-spacing:-1.2px;line-height:1.08;margin:12px 0 18px}
+.hero-photo{height:325px;margin:0 14px;position:relative;background:#e9e9e9;overflow:hidden}
+.hero-photo img{display:block;width:100%;height:100%;object-fit:cover;object-position:center 53%}
+.hero-photo::after{content:'';position:absolute;bottom:0;left:0;right:0;height:60px;background:linear-gradient(transparent,#00000025);pointer-events:none}
+.hero-counter{position:absolute;right:14px;bottom:13px;color:#fff;font-size:10px;letter-spacing:1.2px;font-weight:600;z-index:2}
+.hero-caption{padding:18px 19px 16px;display:flex;justify-content:space-between;align-items:center;gap:16px}
+.hero-caption h2{margin:5px 0 0;font-size:20px;font-weight:635;letter-spacing:-.65px}
+.circle-arrow{width:35px;height:35px;border:1px solid #dedede;display:flex;justify-content:center;align-items:center;border-radius:50%;font-size:22px;font-weight:300}
+.category-links{margin:0 19px;border-top:1px solid #dedede;border-bottom:1px solid #dedede;height:72px;display:flex;align-items:stretch}
+.category-link{flex:1;display:flex;align-items:center;justify-content:center;gap:6px;font-size:12px;font-weight:550;letter-spacing:-.2px}
+.category-link+.category-link{border-left:1px solid #e9e9e9}
+.category-link svg{width:12px;height:12px;stroke:#111;fill:none;stroke-width:1.4}
+.home-tail{padding:17px 19px;display:flex;justify-content:space-between;align-items:center}
+.home-tail span{font-weight:600;font-size:12px}.home-tail .tail-right{font-size:19px;font-weight:400}
+.bottom-nav{position:absolute;bottom:0;left:0;right:0;background:#fff;height:69px;border-top:1px solid #e9e9e9;display:grid;grid-template-columns:repeat(5,1fr);align-items:center;padding:6px 4px 8px;z-index:9}
+.nav-link{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;color:#8a8a8a;font-size:9px;line-height:1;font-weight:570;white-space:nowrap}
+.nav-link svg{width:22px;height:22px;stroke:currentColor;stroke-width:1.55;fill:none;stroke-linejoin:round;stroke-linecap:round}
+.nav-link.active{color:#121212;font-weight:690}.nav-link.active svg{stroke-width:1.85}
+/* Catalog */
+.catalog-lead{padding:22px 19px 0}
+.catalog-lead h1{font-size:32px;line-height:1;letter-spacing:-1.1px;font-weight:630;margin:0 0 8px}
+.catalog-sub{color:#8b8b8b;font-size:11.5px}
+.tabs{margin-top:23px;height:38px;display:flex;gap:22px;align-items:flex-start;border-bottom:1px solid #eee}
+.tab{font-size:12.5px;font-weight:510;padding:0 0 15px;position:relative;color:#919191}
+.tab.active{font-weight:690;color:#101010}.tab.active::after{position:absolute;content:'';height:2px;background:#111;bottom:-1px;left:0;right:0}
+.catalog-toolbar{height:51px;padding:14px 19px 11px;display:flex;justify-content:space-between;align-items:center}
+.catalog-toolbar .count{font-size:11px;color:#777}
+.catalog-toolbar .actions{display:flex;align-items:center;gap:17px;font-size:11px;font-weight:570}
+.catalog-toolbar .actions .sort{display:flex;gap:5px;align-items:center}.catalog-toolbar .actions svg{width:16px;height:16px;stroke:#111;stroke-width:1.55;fill:none}
+.catalog-grid{display:grid;grid-template-columns:1fr 1fr;column-gap:12px;row-gap:21px;margin:0 19px;padding-bottom:60px}
+.product-card{min-width:0}
+.photo{width:170px;height:211px;position:relative;overflow:hidden;background:#f2f2f2;border:1px solid #f0f0f0}
+.photo img{display:block;width:100%;height:100%;object-fit:cover}
+.photo.lilac img{object-position:center 53%}.photo.burgundy img{object-position:center 52%}.photo.hoodie img{object-position:center 50%}.photo.tshirt img{object-position:center 50%}
+.fav{position:absolute;right:8px;top:8px;width:29px;height:29px;border-radius:50%;background:#ffffffeb;display:flex;align-items:center;justify-content:center}
+.fav svg{width:17px;height:17px;stroke:#161616;fill:none;stroke-width:1.55}
+.card-title{font-size:12px;font-weight:570;letter-spacing:-.3px;line-height:1.35;margin:9px 0 0}
+.card-variant{font-size:11px;line-height:1.3;color:#8c8c8c;margin-top:4px}
+.card-price{font-size:12px;line-height:1.3;font-weight:675;margin-top:6px}
+/* Detail */
+.detail-main{height:387px;margin:0 14px;position:relative;background:#e6e6e6;overflow:hidden}
+.detail-main img{display:block;width:100%;height:100%;object-fit:cover;object-position:center 49%}
+.detail-main .detail-count{position:absolute;bottom:10px;right:12px;background:#fff;padding:7px 10px;color:#111;font-size:10px;font-weight:600;letter-spacing:1.1px}
+.gallery-strip{height:48px;display:flex;align-items:center;justify-content:space-between;padding:8px 19px 0}
+.gallery-dots{display:flex;gap:5px}.gallery-dots span{width:5px;height:5px;border-radius:50%;background:#d5d5d5}.gallery-dots span.on{background:#111;width:18px;border-radius:4px}
+.gallery-label{font-size:10px;color:#999;letter-spacing:.4px}
+.detail-info{padding:8px 19px 0}
+.detail-kicker{color:#8d8d8d;font-size:9.5px;letter-spacing:1.3px;font-weight:600}
+.detail-name{display:flex;align-items:flex-start;justify-content:space-between;gap:9px;margin-top:7px}
+.detail-name h1{margin:0;font-size:24px;font-weight:645;letter-spacing:-.75px;line-height:1.17}
+.detail-name .price{font-size:19px;font-weight:660;white-space:nowrap;letter-spacing:-.5px;margin-top:4px}
+.detail-desc{font-size:11px;color:#888;margin-top:7px}
+.size-block{margin-top:18px;padding-top:13px;border-top:1px solid #e4e4e4;display:flex;justify-content:space-between;align-items:center}
+.size-block .label{font-size:11px;font-weight:670}
+.size-block .right{font-size:11px;color:#777;display:flex;align-items:center;gap:4px}
+.size-block .right svg{width:13px;height:13px;stroke:#777;fill:none;stroke-width:1.6}
+.size-hint{font-size:11.5px;color:#666;margin-top:8px}
+.buy-area{position:absolute;bottom:69px;left:0;right:0;background:#fff;padding:10px 19px 11px;border-top:1px solid #eee}
+.buy-btn{height:47px;background:#101010;color:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 17px;font-size:12.5px;font-weight:640;letter-spacing:.1px}
+.buy-btn svg{width:17px;height:17px;stroke:white;stroke-width:1.6;fill:none}
+/* query mode to export separate screens */
+body.single{background:#fff}body.single .preview{padding:0;min-width:390px;gap:0}body.single .preview-item{display:none}body.single .preview-caption{display:none}body.single.show-home [data-screen="home"],body.single.show-catalog [data-screen="catalog"],body.single.show-detail [data-screen="detail"]{display:block}
+
+/* Functional prototype: retain the approved white visual system. */
+body{background:#fff;overflow:hidden}
+.preview{display:block;width:100%;max-width:460px;min-width:0;margin:0 auto;padding:0;height:100dvh;overflow:hidden}
+.preview-item{display:none;width:100%;max-width:none;flex:none;height:100dvh}
+.preview-item.is-active{display:block}
+.preview-caption{display:none}
+.phone{height:100dvh;width:100%;box-shadow:none;display:flex;flex-direction:column;overflow:hidden}
+.status{display:none}
+.topbar{flex:0 0 56px;height:56px;padding:0 18px}
+.top-left, .ui-icon, .nav-link,.tab,.category-link,.circle-arrow,.home-tail,.hero-photo,.product-card,.fav,.buy-btn,.sort,.actions span,.size-block .right,.wordmark {cursor:pointer}
+.top-left{min-width:58px;min-height:40px}
+.ui-icon{min-width:27px;min-height:36px}
+.screen-scroll{flex:1;overflow-y:auto;overflow-x:hidden;scrollbar-width:none;overscroll-behavior-y:contain;-webkit-overflow-scrolling:touch;min-height:0}
+.screen-scroll::-webkit-scrollbar{display:none}
+.bottom-nav{position:relative;flex-shrink:0;bottom:auto;height:calc(65px + env(safe-area-inset-bottom,0px));padding-bottom:calc(8px + env(safe-area-inset-bottom,0px));z-index:4}
+.home-lead{padding-top:25px}
+.hero-photo{height:min(40dvh,365px)}
+.detail-main{height:min(46dvh,410px)}
+.detail-name h1{font-size:23px}
+.detail-info{padding-bottom:14px}
+.buy-area{position:relative;bottom:auto;left:auto;right:auto;flex-shrink:0}
+.photo{width:100%;height:auto;aspect-ratio:170 / 211}
+.catalog-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+.category-link{min-width:0}
+.tab{cursor:pointer;white-space:nowrap}
+.tabs{gap:22px;overflow-x:auto;scrollbar-width:none}
+.catalog-lead{padding-top:25px}
+.product-card{position:relative}
+.fav.is-favorite svg{fill:#111}
+.fav{z-index:2;cursor:pointer}
+.nav-link:focus-visible,.tab:focus-visible,[role=button]:focus-visible{outline:2px solid #111;outline-offset:2px}
+[data-screen=detail] .detail-main{touch-action:pan-y}
+[data-screen=detail] .gallery-dots{align-items:center}
+[data-screen=detail] .detail-count{box-shadow:0 2px 5px #0000000a}
+@media(min-width:480px){body{background:#ececec}.preview{box-shadow:0 0 38px #00000012;background:#fff}}
+@media(max-width:355px){.category-links{margin:0 14px}.category-link{font-size:11px}.catalog-lead h1{font-size:29px}.catalog-grid{column-gap:9px;margin:0 14px}.card-variant{font-size:10px}.home-lead h1{font-size:31px}}
+.extra-section{padding:24px 20px 30px}
+.extra-section h1{font-size:31px;font-weight:640;letter-spacing:-1px;line-height:1.1;margin:5px 0 15px}
+.extra-section .subtitle{font-size:12px;color:#777;line-height:1.55;margin:0 0 20px}
+.extra-divider{border:0;border-top:1px solid #eaeaea;margin:18px 0}
+.extra-action{background:#111;color:#fff;border:0;border-radius:0;min-height:46px;width:100%;padding:0 15px;font-size:13px;font-weight:600;text-align:center;cursor:pointer}
+.extra-action.secondary{background:white;border:1px solid #ddd;color:#111}
+.extra-action + .extra-action{margin-top:9px}
+.extra-item{display:grid;grid-template-columns:87px minmax(0,1fr) auto;gap:13px;padding:12px 0;border-top:1px solid #eee;align-items:start;cursor:pointer}
+.extra-item img{width:87px;height:105px;object-fit:cover}
+.extra-item h3{font-size:13px;margin:4px 0 6px;font-weight:620}
+.extra-item p{font-size:11px;color:#777;line-height:1.45;margin:0 0 8px}
+.extra-item strong{font-size:12px}
+.extra-item .remove{border:0;background:transparent;font-size:18px;padding:0 5px;color:#777;cursor:pointer}
+.empty-state{padding:38px 12px;text-align:center;border-top:1px solid #eee}
+.empty-state h2{font-size:16px;font-weight:600;margin:10px 0}
+.empty-state p{font-size:12px;color:#888;line-height:1.6}
+.extra-badge{font-size:10px;text-transform:uppercase;color:#999;letter-spacing:1.35px}
+.extra-row{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.extra-list-link{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #eee;padding:18px 0;font-size:13px;color:#111;text-decoration:none;cursor:pointer}
+.extra-list-link span:last-child{font-size:22px;font-weight:300}
+.search-input{width:100%;padding:14px 15px;border-radius:0;border:1px solid #ddd;font:inherit;font-size:14px;outline:none}
+.search-input:focus{border-color:#111}
+.result-list{margin-top:16px}
+.demo-note{font-size:10px;line-height:1.5;color:#929292;margin-top:10px}
+.modal-overlay{position:fixed;inset:0;background:#0007;display:flex;align-items:end;justify-content:center;z-index:100;padding:0}
+.modal-panel{width:100%;max-width:460px;background:#fff;padding:24px 20px calc(22px + env(safe-area-inset-bottom,0px));border-radius:0;box-shadow:0 -8px 35px #00000012}
+.modal-panel h2{font-size:20px;letter-spacing:-.5px;font-weight:640;margin:0 0 12px}
+.modal-panel p{font-size:12px;color:#747474;line-height:1.5;margin:0 0 15px}
+.modal-close{position:absolute;right:max(20px,calc((100vw - 420px)/2));top:18px;border:0;background:white;font-size:27px;cursor:pointer}
+.modal-panel{position:relative}
+.modal-panel .modal-close{right:15px;top:12px}
+.modal-panel input{width:100%;padding:14px;border:1px solid #ddd;font-size:14px;border-radius:0;margin:4px 0 14px}
+.toast{position:fixed;z-index:120;bottom:calc(84px + env(safe-area-inset-bottom,0px));left:50%;transform:translateX(-50%);background:#111;color:white;font-size:12px;padding:12px 18px;max-width:90vw;text-align:center;box-shadow:0 4px 15px #0002}
+@media(prefers-reduced-motion:no-preference){.preview-item{animation:screen-in .15s ease-out}@keyframes screen-in{from{opacity:.75}to{opacity:1}}}
+</style>
+<meta content="#ffffff" name="theme-color"/><meta content="yes" name="apple-mobile-web-app-capable"/><meta content="default" name="apple-mobile-web-app-status-bar-style"/><meta content="ANTKRIS — интерактивный прототип мобильного магазина одежды с вышивкой" name="description"/></head>
+<body>
+<svg aria-hidden="true" height="0" style="position:absolute" width="0">
+<symbol id="heart" viewbox="0 0 24 24"><path d="M20.5 8.4c0-2.7-2-4.7-4.6-4.7-1.6 0-3.1.8-3.9 2.2A4.6 4.6 0 0 0 8.1 3.7c-2.6 0-4.6 2-4.6 4.7 0 4.7 8.5 11.3 8.5 11.3s8.5-6.6 8.5-11.3Z"></path></symbol>
+<symbol id="bag" viewbox="0 0 24 24"><path d="M5.1 8.2h13.8L20 21H4L5.1 8.2Z"></path><path d="M8.5 9V6.9a3.5 3.5 0 0 1 7 0V9"></path></symbol>
+<symbol id="home-icon" viewbox="0 0 24 24"><path d="m3.2 10 8.8-6.9 8.8 6.9v10.6H3.2V10Z"></path><path d="M9 20.6v-7.1h6v7.1"></path></symbol>
+<symbol id="grid-icon" viewbox="0 0 24 24"><rect height="7.5" rx=".5" width="7.5" x="3" y="3.5"></rect><rect height="7.5" rx=".5" width="7.5" x="13.5" y="3.5"></rect><rect height="7.5" rx=".5" width="7.5" x="3" y="14"></rect><rect height="7.5" rx=".5" width="7.5" x="13.5" y="14"></rect></symbol>
+<symbol id="person" viewbox="0 0 24 24"><circle cx="12" cy="7.7" r="3.4"></circle><path d="M4.8 20.2c.2-4.2 2.6-6.6 7.2-6.6s7 2.4 7.2 6.6"></path></symbol>
+<symbol id="search" viewbox="0 0 24 24"><circle cx="10.6" cy="10.6" r="6.5"></circle><path d="m15.8 15.8 4.6 4.6"></path></symbol>
+<symbol id="chev-left" viewbox="0 0 24 24"><path d="m14.5 5.1-7 6.9 7 6.9"></path></symbol>
+<symbol id="filter" viewbox="0 0 24 24"><path d="M3 6h18M6 12h12M10 18h4"></path></symbol>
+<symbol id="arrow-right" viewbox="0 0 24 24"><path d="M4 12h16m-6-6 6 6-6 6"></path></symbol>
+<symbol id="dots" viewbox="0 0 24 24"><circle cx="5.5" cy="12" fill="currentColor" r="1.25" stroke="none"></circle><circle cx="12" cy="12" fill="currentColor" r="1.25" stroke="none"></circle><circle cx="18.5" cy="12" fill="currentColor" r="1.25" stroke="none"></circle></symbol>
+<symbol id="chev-down" viewbox="0 0 24 24"><path d="m6 9 6 6 6-6"></path></symbol>
+</svg>
+<div class="preview">
+<div class="preview-item" data-screen="home"><main class="phone"><header class="topbar" data-topbar="1"><span class="top-left" data-action="home-catalog" role="button" tabindex="0"><svg><use href="#grid-icon"></use></svg>Каталог</span><div class="wordmark">ANTKRIS</div><span class="top-icons"><span class="ui-icon" data-action="search" role="button" tabindex="0"><svg><use href="#search"></use></svg></span><span class="ui-icon" data-action="cart" role="button" tabindex="0"><svg><use href="#bag"></use></svg></span></span></header><div class="screen-scroll">
+<section class="home-lead"><div class="row"><span class="eyebrow">ВЫШИВКА НА ОДЕЖДЕ</span><span class="edition">КРАСНОЯРСК</span></div><h1>Одежда<br/>с вышивкой.</h1></section>
+<div class="hero-photo" data-go="catalog" role="button" tabindex="0"><img alt="Велюровые костюмы ANTKRIS" src="assets/burgundy.jpg"/><span class="hero-counter">01 / 03</span></div>
+<div class="hero-caption"><div><div class="eyebrow">ANTKRIS / ВЕЛЮР</div><h2>Велюровые костюмы</h2></div><span class="circle-arrow" data-go="catalog" role="button" tabindex="0">↗</span></div>
+<div class="category-links"><span class="category-link" data-category="suit" role="button" tabindex="0">Костюмы <svg><use href="#arrow-right"></use></svg></span><span class="category-link" data-category="hoodie" role="button" tabindex="0">Худи <svg><use href="#arrow-right"></use></svg></span><span class="category-link" data-category="tee" role="button" tabindex="0">Футболки <svg><use href="#arrow-right"></use></svg></span></div>
+<div class="home-tail" data-go="catalog" role="button" tabindex="0"><span>Смотреть весь каталог</span><span class="tail-right">↗</span></div>
+</div><nav class="bottom-nav"><div class="nav-link active" data-go="home" role="button" tabindex="0"><svg><use href="#home-icon"></use></svg>Главная</div><div class="nav-link" data-go="catalog" role="button" tabindex="0"><svg><use href="#grid-icon"></use></svg>Каталог</div><div class="nav-link" data-go="cart" role="button" tabindex="0"><svg><use href="#bag"></use></svg>Корзина</div><div class="nav-link" data-go="favorites" role="button" tabindex="0"><svg><use href="#heart"></use></svg>Избранное</div><div class="nav-link" data-go="profile" role="button" tabindex="0"><svg><use href="#person"></use></svg>Профиль</div></nav></main></div>
+<div class="preview-item" data-screen="catalog"><main class="phone"><header class="topbar" data-topbar="1"><span class="top-left" data-action="back" role="button" tabindex="0"><svg><use href="#chev-left"></use></svg>Назад</span><div class="wordmark">ANTKRIS</div><span class="top-icons"><span class="ui-icon" data-action="search" role="button" tabindex="0"><svg><use href="#search"></use></svg></span><span class="ui-icon" data-action="cart" role="button" tabindex="0"><svg><use href="#bag"></use></svg></span></span></header><div class="screen-scroll">
+<section class="catalog-lead"><h1>Каталог</h1><div class="catalog-sub">Костюмы, худи и футболки с вышивкой</div><div class="tabs"><span class="tab active" data-filter="all" role="button" tabindex="0">Всё</span><span class="tab" data-filter="suit" role="button" tabindex="0">Костюмы</span><span class="tab" data-filter="hoodie" role="button" tabindex="0">Худи</span><span class="tab" data-filter="tee" role="button" tabindex="0">Футболки</span></div></section>
+<div class="catalog-toolbar"><span class="count">Вся одежда</span><div class="actions"><span class="sort" data-action="sort" role="button" tabindex="0">По умолчанию <svg height="13" width="13"><use href="#chev-down"></use></svg></span><span data-action="filters" role="button" tabindex="0"><svg><use href="#filter"></use></svg></span></div></div>
+<section class="catalog-grid">
+<article class="product-card" data-product="lilac" role="button" tabindex="0"><div class="photo lilac"><img alt="Сиреневый велюровый костюм" src="assets/lilac.jpg"/><span aria-label="Добавить в избранное" class="fav" data-favorite="lilac" role="button" tabindex="0"><svg><use href="#heart"></use></svg></span></div><div class="card-title">Велюровый костюм</div><div class="card-variant">Сиреневый</div><div class="card-price">Цена по запросу</div></article>
+<article class="product-card" data-product="burgundy" role="button" tabindex="0"><div class="photo burgundy"><img alt="Бордовые велюровые костюмы" src="assets/burgundy.jpg"/><span aria-label="Добавить в избранное" class="fav" data-favorite="burgundy" role="button" tabindex="0"><svg><use href="#heart"></use></svg></span></div><div class="card-title">Велюровый костюм</div><div class="card-variant">Бордовый</div><div class="card-price">Цена по запросу</div></article>
+<article class="product-card" data-product="hoodie" role="button" tabindex="0"><div class="photo hoodie"><img alt="Худи с золотой вышивкой" src="assets/hoodie_gold.jpg"/><span aria-label="Добавить в избранное" class="fav" data-favorite="hoodie" role="button" tabindex="0"><svg><use href="#heart"></use></svg></span></div><div class="card-title">Худи «РОССИЯ»</div><div class="card-variant">Чёрный / золотая вышивка</div><div class="card-price">7 800 ₽*</div></article>
+<article class="product-card" data-product="tshirt" role="button" tabindex="0"><div class="photo tshirt"><img alt="Чёрная футболка с вышивкой" src="assets/black_tshirt.jpg"/><span aria-label="Добавить в избранное" class="fav" data-favorite="tshirt" role="button" tabindex="0"><svg><use href="#heart"></use></svg></span></div><div class="card-title">Футболка с вышивкой</div><div class="card-variant">Чёрный</div><div class="card-price">Цена по запросу</div></article>
+</section>
+</div><nav class="bottom-nav"><div class="nav-link" data-go="home" role="button" tabindex="0"><svg><use href="#home-icon"></use></svg>Главная</div><div class="nav-link active" data-go="catalog" role="button" tabindex="0"><svg><use href="#grid-icon"></use></svg>Каталог</div><div class="nav-link" data-go="cart" role="button" tabindex="0"><svg><use href="#bag"></use></svg>Корзина</div><div class="nav-link" data-go="favorites" role="button" tabindex="0"><svg><use href="#heart"></use></svg>Избранное</div><div class="nav-link" data-go="profile" role="button" tabindex="0"><svg><use href="#person"></use></svg>Профиль</div></nav></main></div>
+<div class="preview-item" data-screen="detail"><main class="phone"><header class="topbar" data-topbar="1"><span class="top-left" data-action="back" role="button" tabindex="0"><svg><use href="#chev-left"></use></svg>Назад</span><div class="wordmark">ANTKRIS</div><span class="top-icons"><span class="ui-icon" data-action="favorite-current" role="button" tabindex="0"><svg><use href="#heart"></use></svg></span><span class="ui-icon" data-action="menu" role="button" tabindex="0"><svg><use href="#dots"></use></svg></span></span></header><div class="screen-scroll">
+<div class="detail-main" data-action="gallery" role="button" tabindex="0"><img alt="Чёрное худи РОССИЯ с золотой вышивкой" src="assets/hoodie_gold.jpg"/><span class="detail-count">01 / 02</span></div>
+<div class="gallery-strip"><div class="gallery-dots"><span class="on"></span><span></span></div><span class="gallery-label">2 ФОТО</span></div>
+<section class="detail-info"><div class="detail-kicker">ХУДИ / ВЫШИВКА</div><div class="detail-name"><h1>Худи «РОССИЯ»</h1><span class="price">7 800 ₽*</span></div><div class="detail-desc">Чёрный · золотая вышивка на спине</div><div class="size-block"><span class="label">Размер</span><span class="right" data-action="size" role="button" tabindex="0">Выбрать размер <svg><use href="#chev-down"></use></svg></span></div><div class="size-hint">Наличие и размер уточняются при заказе.</div><p class="demo-note" id="detail-price-note">* Цена из публикации 24.11.2025. Актуальную стоимость уточняйте у продавца.</p></section>
+</div><div class="buy-area"><div class="buy-btn" data-action="inquiry" role="button" tabindex="0"><span>Уточнить наличие</span><svg><use href="#arrow-right"></use></svg></div></div><nav class="bottom-nav"><div class="nav-link" data-go="home" role="button" tabindex="0"><svg><use href="#home-icon"></use></svg>Главная</div><div class="nav-link" data-go="catalog" role="button" tabindex="0"><svg><use href="#grid-icon"></use></svg>Каталог</div><div class="nav-link" data-go="cart" role="button" tabindex="0"><svg><use href="#bag"></use></svg>Корзина</div><div class="nav-link" data-go="favorites" role="button" tabindex="0"><svg><use href="#heart"></use></svg>Избранное</div><div class="nav-link" data-go="profile" role="button" tabindex="0"><svg><use href="#person"></use></svg>Профиль</div></nav></main></div>
+<div class="preview-item" data-screen="extra"><main class="phone"><header class="topbar"><span class="top-left" data-action="back" role="button" tabindex="0"><svg viewbox="0 0 24 24"><use href="#chev-left"></use></svg>Назад</span><div class="wordmark" data-go="home">ANTKRIS</div><span class="top-icons"><span class="ui-icon" data-action="search" role="button" tabindex="0"><svg><use href="#search"></use></svg></span><span class="ui-icon" data-action="cart" role="button" tabindex="0"><svg><use href="#bag"></use></svg></span></span></header><div class="screen-scroll" id="extra-content"></div><nav class="bottom-nav"><div class="nav-link active" data-go="home" role="button" tabindex="0"><svg><use href="#home-icon"></use></svg>Главная</div><div class="nav-link" data-go="catalog" role="button" tabindex="0"><svg><use href="#grid-icon"></use></svg>Каталог</div><div class="nav-link" data-go="cart" role="button" tabindex="0"><svg><use href="#bag"></use></svg>Корзина</div><div class="nav-link" data-go="favorites" role="button" tabindex="0"><svg><use href="#heart"></use></svg>Избранное</div><div class="nav-link" data-go="profile" role="button" tabindex="0"><svg><use href="#person"></use></svg>Профиль</div></nav></main></div></div>
+<script>
+const PRODUCTS={
+  lilac:{id:'lilac',name:'Велюровый костюм',color:'Сиреневый',type:'suit',group:'Костюмы',price:'Цена по запросу',pictures:['assets/lilac.jpg'],description:'Сиреневый велюровый костюм с вышивкой.'},
+  burgundy:{id:'burgundy',name:'Велюровый костюм',color:'Бордовый',type:'suit',group:'Костюмы',price:'Цена по запросу',pictures:['assets/burgundy.jpg'],description:'Бордовый велюровый костюм с вышивкой.'},
+  hoodie:{id:'hoodie',name:'Худи «РОССИЯ»',color:'Чёрный / золотая вышивка',type:'hoodie',group:'Худи',price:'7 800 ₽*',pictures:['assets/hoodie_gold.jpg','assets/hoodie_russian.jpg'],description:'Чёрное худи с золотой вышивкой на спине.'},
+  tshirt:{id:'tshirt',name:'Футболка с вышивкой',color:'Чёрный',type:'tee',group:'Футболки',price:'Цена по запросу',pictures:['assets/black_tshirt.jpg'],description:'Чёрная футболка с вышивкой на спине.'}
+};
+const tgURL='https://t.me/antkrisshop';
+const igURL='https://www.instagram.com/antkris_shop/';
+let screen='home',currentProduct='hoodie',filter='all',sortAZ=false,galleryIndex=0,requestedSize='';
+let lastScreen='catalog';
+let favourites=load('antkris_favs',[]),cart=load('antkris_cart',[]);
+function load(k,def){try {const d=JSON.parse(localStorage.getItem(k));return Array.isArray(d)?d:def}catch(e){return def}}
+function save(){try{localStorage.setItem('antkris_favs',JSON.stringify(favourites));localStorage.setItem('antkris_cart',JSON.stringify(cart))}catch(e){}}
+function escapeHTML(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function navigate(dest){if(dest==='detail')dest='product/'+currentProduct; if(dest==='home'&&location.hash==='#/home'){render();return}location.hash='#/'+dest;}
+function setHash(){const h=decodeURIComponent(location.hash.replace(/^#\/?/,''));const parts=h.split('/');const next=parts[0]||'home';if(next==='product'){currentProduct=PRODUCTS[parts[1]]?parts[1]:'hoodie';screen='detail'}else{screen=['home','catalog','cart','favorites','profile','search'].includes(next)?next:'home'}render();}
+function render(){document.querySelectorAll('.preview-item').forEach(el=>el.classList.toggle('is-active',el.dataset.screen===(['cart','favorites','profile','search'].includes(screen)?'extra':screen)));
+ document.querySelectorAll('.nav-link').forEach(e=>e.classList.toggle('active',e.dataset.go===screen || (screen==='detail'&&e.dataset.go==='catalog')));
+ if(screen==='catalog')renderCatalog();
+ if(screen==='detail')renderDetail();
+ if(['cart','favorites','profile','search'].includes(screen))renderExtra();
+ document.querySelector('.is-active .screen-scroll')?.scrollTo(0,0);
+ if(window.Telegram?.WebApp){try{window.Telegram.WebApp.ready();window.Telegram.WebApp.expand();}catch(e){}}
+}
+function renderCatalog(){document.querySelectorAll('.tab').forEach(e=>e.classList.toggle('active',e.dataset.filter===filter));const cards=[...document.querySelectorAll('.catalog-grid .product-card')]; cards.forEach(e=>{e.style.display=(filter==='all'||PRODUCTS[e.dataset.product].type===filter)?'':'none'});
+ const grid=document.querySelector('.catalog-grid');cards.sort((a,b)=>{if(!sortAZ)return Object.keys(PRODUCTS).indexOf(a.dataset.product)-Object.keys(PRODUCTS).indexOf(b.dataset.product);return PRODUCTS[a.dataset.product].name.localeCompare(PRODUCTS[b.dataset.product].name,'ru')});cards.forEach(e=>grid.appendChild(e));
+ document.querySelector('.catalog-toolbar .count').textContent=(filter==='all'?'Вся одежда':({suit:'Костюмы',hoodie:'Худи',tee:'Футболки'}[filter]))+' · '+cards.filter(e=>e.style.display!=='none').length;
+ document.querySelector('.catalog-toolbar .sort').firstChild.textContent=sortAZ?'По названию ':'По умолчанию ';
+ document.querySelectorAll('.fav').forEach(el=>el.classList.toggle('is-favorite',favourites.includes(el.dataset.favorite)));
+}
+function renderDetail(){const p=PRODUCTS[currentProduct];if(!p)return;
+ const el=document.querySelector('[data-screen="detail"]');const img=el.querySelector('.detail-main img');galleryIndex=0;img.src=p.pictures[0];img.alt=p.name;el.querySelector('.detail-kicker').textContent=p.group.toUpperCase()+' / ВЫШИВКА';
+ el.querySelector('.detail-name h1').textContent=p.name;el.querySelector('.detail-name .price').textContent=p.price;el.querySelector('.detail-desc').textContent=p.description;
+ el.querySelector('.detail-count').textContent='01 / '+String(p.pictures.length).padStart(2,'0');
+ el.querySelector('.gallery-label').textContent=p.pictures.length+' ФОТО';
+ el.querySelector('.gallery-dots').innerHTML=p.pictures.map((_,i)=>'<span class="'+(i===0?'on':'')+'"></span>').join('');
+ el.querySelector('.size-block .right').firstChild.textContent=requestedSize?'Размер: '+requestedSize+' ':'Уточнить размер ';
+ el.querySelector('.size-hint').textContent='Наличие и размеры уточняются у магазина.';el.querySelector('#detail-price-note').style.display=currentProduct==='hoodie'?'':'none';
+ const f=el.querySelector('[data-action="favorite-current"] svg');f.style.fill=favourites.includes(currentProduct)?'#111':'none';
+}
+function toggleFavorite(id){favourites=favourites.includes(id)?favourites.filter(x=>x!==id):[...favourites,id];save();if(screen==='favorites')renderExtra();else if(screen==='catalog')renderCatalog();else if(screen==='detail')renderDetail();toast(favourites.includes(id)?'Добавлено в избранное':'Удалено из избранного')}
+function galleryNext(){let p=PRODUCTS[currentProduct];if(p.pictures.length<2)return;galleryIndex=(galleryIndex+1)%p.pictures.length;const el=document.querySelector('[data-screen="detail"]');el.querySelector('.detail-main img').src=p.pictures[galleryIndex];el.querySelector('.detail-count').textContent=String(galleryIndex+1).padStart(2,'0')+' / '+String(p.pictures.length).padStart(2,'0');el.querySelectorAll('.gallery-dots span').forEach((e,i)=>e.classList.toggle('on',i===galleryIndex));}
+function cardRow(p,kind){return `<div class="extra-item" data-open-product="${p.id}"><img src="${p.pictures[0]}" alt="${escapeHTML(p.name)}"/><div><h3>${escapeHTML(p.name)}</h3><p>${escapeHTML(p.color)}</p><strong>${escapeHTML(p.price)}</strong></div><button class="remove" data-remove="${p.id}" data-remove-kind="${kind}" aria-label="Удалить">×</button></div>`}
+function renderExtra(){let html='';const items=Object.values(PRODUCTS);const pCurrent=PRODUCTS[currentProduct];if(screen==='favorites'){const pp=favourites.map(x=>PRODUCTS[x]).filter(Boolean);html=`<div class="extra-section"><div class="extra-badge">ANTKRIS / СОХРАНЁННОЕ</div><h1>Избранное</h1><p class="subtitle">Товары, которые вы отметили.</p>${pp.length?pp.map(p=>cardRow(p,'favorites')).join(''):'<div class="empty-state"><h2>Пока пусто</h2><p>Нажмите на сердечко в каталоге, чтобы сохранить понравившееся.</p></div>'}<button class="extra-action secondary" data-go="catalog">Перейти в каталог</button></div>`}
+ if(screen==='cart'){const pp=cart.map(x=>PRODUCTS[x.id]).filter(Boolean);html=`<div class="extra-section"><div class="extra-badge">ANTKRIS / ЗАПРОС</div><h1>Корзина</h1><p class="subtitle">Демо-список выбранных товаров. Оформление заказа и оплата пока не подключены.</p>${pp.length?pp.map(p=>cardRow(p,'cart')).join(''):'<div class="empty-state"><h2>Пока нет товаров</h2><p>Добавьте товары в запрос с карточки товара.</p></div>'}${pp.length?'<button class="extra-action" data-action="open-telegram">Связаться с магазином в Telegram</button><p class="demo-note">Корзина не передаётся автоматически в Telegram. Уточните выбранные товары у продавца.</p>':''}<hr class="extra-divider"/><button class="extra-action secondary" data-go="catalog">Продолжить покупки</button></div>`}
+ if(screen==='profile'){html=`<div class="extra-section"><div class="extra-badge">ОДЕЖДА С ВЫШИВКОЙ · КРАСНОЯРСК</div><h1>ANTKRIS</h1><p class="subtitle">Связь с магазином и информация о заказе.</p><a class="extra-list-link" href="${tgURL}" target="_blank" rel="noopener">Магазин в Telegram<span>↗</span></a><a class="extra-list-link" href="${igURL}" target="_blank" rel="noopener">Instagram @antkris_shop<span>↗</span></a><div class="empty-state"><h2>Личный кабинет</h2><p>Авторизация, история заказов и оформление покупки появятся после подключения серверной части. Сейчас это интерактивный прототип.</p></div><button class="extra-action secondary" data-go="catalog">Каталог одежды</button></div>`}
+ if(screen==='search'){html=`<div class="extra-section"><div class="extra-badge">ANTKRIS / ПОИСК</div><h1>Поиск</h1><input id="product-search" class="search-input" type="search" autocomplete="off" placeholder="Название или цвет" aria-label="Поиск товаров"/><div class="result-list" id="search-results">${items.map(p=>cardRow(p,'search')).join('')}</div></div>`}
+ document.getElementById('extra-content').innerHTML=html;
+ if(screen==='search'){const input=document.getElementById('product-search');input.addEventListener('input',()=>{const q=input.value.toLowerCase().trim();const found=items.filter(p=>[p.name,p.color,p.group].join(' ').toLowerCase().includes(q));document.getElementById('search-results').innerHTML=found.length?found.map(p=>cardRow(p,'search')).join(''):'<div class="empty-state"><h2>Ничего не найдено</h2><p>Попробуйте другое слово.</p></div>';});}
+}
+function modal(title,desc,body){const old=document.querySelector('.modal-overlay');if(old)old.remove();const el=document.createElement('div');el.className='modal-overlay';el.innerHTML=`<div class="modal-panel" role="dialog" aria-modal="true" aria-label="${escapeHTML(title)}"><button class="modal-close" aria-label="Закрыть" data-action="close-modal">×</button><h2>${escapeHTML(title)}</h2><p>${escapeHTML(desc)}</p>${body}</div>`;el.addEventListener('click',e=>{if(e.target===el)el.remove()});document.body.appendChild(el);return el;}
+function openSize(){let m=modal('Уточнить размер','На сайте не указана актуальная размерная сетка. Можете вписать свой размер для запроса продавцу.',`<input id="size-input" type="text" maxlength="20" placeholder="Ваш размер (например, M или 48)" value="${escapeHTML(requestedSize)}"/><button class="extra-action" data-action="save-size">Сохранить для запроса</button>`);m.querySelector('#size-input').focus()}
+function openInquiry(){let m=modal('Запросить наличие','Это прототип: заказ не оформляется и оплата не проводится. Можно добавить товар в список или связаться с магазином.',`<button class="extra-action" data-action="add-cart">Добавить в запрос</button><button class="extra-action secondary" data-action="open-telegram">Открыть Telegram магазина</button>`);}
+let toastId=0;function toast(msg){const n=document.createElement('div');n.className='toast';n.textContent=msg;document.querySelector('.toast')?.remove();document.body.appendChild(n);const id=++toastId;setTimeout(()=>{if(id===toastId)n.remove()},2200)}
+function openOut(url){if(window.Telegram?.WebApp?.openTelegramLink&&url.startsWith('https://t.me/'))window.Telegram.WebApp.openTelegramLink(url);else window.open(url,'_blank','noopener,noreferrer')}
+function closeModal(){document.querySelector('.modal-overlay')?.remove();}
+function handleAction(a){switch(a){case'home-catalog': navigate('catalog');break;case'back':if(screen==='detail')navigate(lastScreen==='detail'?'catalog':lastScreen);else if(screen==='home')navigate('catalog');else navigate('home');break;
+ case'search':navigate('search');break;case'cart':navigate('cart');break;case'favorite-current':toggleFavorite(currentProduct);break;case'menu':modal('ANTKRIS','Магазин одежды с вышивкой.',`<button class="extra-action secondary" data-go="catalog">Каталог</button><button class="extra-action secondary" data-go="profile">Контакты</button>`);break;
+ case'filters':modal('Категории','Выберите категорию товаров.',`<button class="extra-action secondary" data-set-filter="all">Вся одежда</button><button class="extra-action secondary" data-set-filter="suit">Костюмы</button><button class="extra-action secondary" data-set-filter="hoodie">Худи</button><button class="extra-action secondary" data-set-filter="tee">Футболки</button>`);break;
+ case'sort':sortAZ=!sortAZ;renderCatalog();break;case'size':openSize();break;case'gallery':galleryNext();break;case'inquiry':openInquiry();break;
+ case'close-modal':closeModal();break;case'save-size':requestedSize=document.querySelector('#size-input')?.value?.trim()||'';closeModal();renderDetail();toast('Размер сохранён для запроса');break;
+ case'add-cart':if(!cart.some(x=>x.id===currentProduct)){cart.push({id:currentProduct,size:requestedSize});save();}closeModal();toast('Товар добавлен в запрос');break;
+ case'open-telegram':closeModal();openOut(tgURL);break;}}
+document.addEventListener('click',e=>{
+ let el=e.target.closest('[data-remove]');if(el){e.stopPropagation();const id=el.dataset.remove;if(el.dataset.removeKind==='favorites')favourites=favourites.filter(x=>x!==id);else if(el.dataset.removeKind==='cart')cart=cart.filter(x=>x.id!==id);save();renderExtra();return;}
+ el=e.target.closest('[data-favorite]');if(el){e.stopPropagation();toggleFavorite(el.dataset.favorite);return;}
+ el=e.target.closest('[data-set-filter]');if(el){filter=el.dataset.setFilter;closeModal();navigate('catalog');renderCatalog();return;}
+ el=e.target.closest('[data-category]');if(el){filter=el.dataset.category;navigate('catalog');renderCatalog();return;}
+ el=e.target.closest('[data-filter]');if(el){filter=el.dataset.filter;renderCatalog();return;}
+ el=e.target.closest('[data-open-product], [data-product]');if(el){lastScreen=screen;currentProduct=el.dataset.openProduct||el.dataset.product;requestedSize='';navigate('detail');return;}
+ el=e.target.closest('[data-go]');if(el){closeModal();navigate(el.dataset.go);return;}
+ el=e.target.closest('[data-action]');if(el){handleAction(el.dataset.action);return;}
+ });
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();if((e.key==='Enter'||e.key===' ')&&e.target.getAttribute('role')==='button'){e.preventDefault();e.target.click();}});
+let startX=null;document.querySelector('[data-screen="detail"] .detail-main').addEventListener('touchstart',e=>{startX=e.touches[0].clientX},{passive:true});
+document.querySelector('[data-screen="detail"] .detail-main').addEventListener('touchend',e=>{if(startX!=null&&Math.abs(e.changedTouches[0].clientX-startX)>35){galleryNext();startX=null;}},{passive:true});
+window.addEventListener('hashchange',setHash);
+window.addEventListener('DOMContentLoaded',setHash);
+</script></body></html>
