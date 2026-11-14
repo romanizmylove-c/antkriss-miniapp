@@ -36,7 +36,7 @@
     get('#cust-crest-options',root).hidden=state.type==='none';
     get('#cust-crest-range',root).value=String(state.crestCm);
     get('#cust-size-value',root).textContent=state.crestCm+' см · ориентир';
-    const crest=get('#custom-crest',root);crest.hidden=state.type==='none';crest.style.width=(state.crestCm/26*34)+'%';crest.src='assets/crest-stitch-'+(COLORS[state.crestColor]?state.crestColor:'gold')+'.webp';crest.classList.toggle('with-text-above',Boolean(state.inscription)&&state.position==='above');crest.classList.toggle('with-text-below',Boolean(state.inscription)&&state.position==='below');
+    const crest=get('#custom-crest',root);crest.hidden=state.type==='none';crest.style.width=(state.crestCm/26*34)+'%';crest.src='assets/crest-stitch-'+(COLORS[state.crestColor]?state.crestColor:'gold')+'.webp?v=2';crest.classList.toggle('with-text-above',Boolean(state.inscription)&&state.position==='above');crest.classList.toggle('with-text-below',Boolean(state.inscription)&&state.position==='below');
     const txt=get('#custom-preview-text',root);txt.textContent=state.inscription;txt.style.setProperty('--letter',COLORS[state.inscriptionColor]);txt.classList.toggle('above',state.position==='above');txt.classList.toggle('no-crest',state.type==='none');txt.hidden=!state.inscription;
     const input=get('#cust-inscription',root);if(input.value!==state.inscription)input.value=state.inscription;
     get('#cust-char-count',root).textContent=state.inscription.length+' / 24';
