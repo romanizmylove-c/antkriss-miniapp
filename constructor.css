@@ -10,3 +10,32 @@ body.cust-open{overflow:hidden}.antkris-telegram .cust-screen{max-width:none;hei
 @media (max-height:710px){.cust-stage{height:280px;min-height:250px}.cust-heading{margin-top:12px}.cust-panel{margin-top:17px}}
 .custom-item-meta{font-size:10px;line-height:1.5;color:#5b5b5b;margin:6px 0;overflow-wrap:anywhere}.custom-edit-button{border:0;border-bottom:1px solid #a3a3a3;background:none;padding:4px 0;font-size:10px;font-weight:700;color:#292929;cursor:pointer}.custom-payment-detail{display:block;margin-top:4px;font-size:10px;line-height:1.4;color:#777;overflow-wrap:anywhere}
 .custom-cart-thumb{width:94px;height:118px;position:relative;overflow:hidden;isolation:isolate;border-radius:10px;background:#efeff1;cursor:pointer}.custom-cart-thumb svg{display:block;width:100%;height:100%}.custom-cart-eagle{position:absolute;left:50%;top:45%;height:34%;aspect-ratio:293/305;transform:translate(-50%,-50%);background:var(--c);-webkit-mask:url('assets/eagle-embroidery-mask.png') center/contain no-repeat;mask:url('assets/eagle-embroidery-mask.png') center/contain no-repeat}.custom-cart-letter{position:absolute;left:14%;right:14%;top:65%;font-size:7px;font-weight:780;line-height:1;text-align:center;overflow-wrap:anywhere;text-shadow:0 1px 1px #0006}.custom-cart-letter.above{top:27%}.custom-cart-letter.alone{top:45%}
+
+/* ANTKRIS REAL PRODUCT PHOTO - authentic embroidery v2 */
+.cust-stage{background:#fff;height:min(96vw,390px);max-height:390px;border-radius:10px;border:1px solid #ededed;isolation:isolate}
+.cust-stage-tag{z-index:8;color:#525252;background:#fffffff0;padding:6px 8px;border-radius:4px;top:9px;left:9px;font-size:9px}
+.cust-garment-photo{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;pointer-events:none;user-select:none}
+.cust-stage .cust-garment{display:none!important}
+.cust-stage .cust-crest{position:absolute;left:50%;top:58%;transform:translate(-50%,-50%);height:auto;width:30%;max-width:none;aspect-ratio:299/295;object-fit:contain;display:block;opacity:.97;filter:drop-shadow(0 .4px .55px #0005);-webkit-mask:none!important;mask:none!important;background:none!important;pointer-events:none;transition:width .16s ease,top .16s ease}
+.cust-stage .cust-crest[hidden]{display:none}
+.cust-stage .cust-crest.with-text-above{top:61%}
+.cust-stage .cust-crest.with-text-below{top:55%}
+.cust-stage .cust-text-preview{position:absolute;left:50%;top:77%;transform:translateX(-50%);width:43%;font:800 clamp(11px,3.7vw,17px)/1.04 Georgia,'Times New Roman',serif;letter-spacing:.08px;overflow-wrap:anywhere;word-break:normal;white-space:normal;text-shadow:0 .65px .6px #000b,0 0 .8px currentColor;pointer-events:none}
+.cust-stage .cust-text-preview.above{top:39.5%}
+.cust-stage .cust-text-preview.no-crest{top:56%}
+.cust-stage .cust-text-preview[hidden]{display:none}
+.cust-reference{margin:10px 18px 8px;padding:10px 13px;border:1px solid #ececec;border-radius:8px;font-size:11px;color:#444;background:#fff}
+.cust-reference summary{font-weight:680;cursor:pointer;list-style:none}.cust-reference summary::-webkit-details-marker{display:none}
+.cust-reference img{display:block;max-width:260px;width:100%;height:auto;margin:12px auto;border-radius:6px}
+.cust-reference p{margin:8px 0 3px;color:#777;line-height:1.5}
+.cust-garment-choice img{object-fit:contain;background:#fff}
+.custom-cart-thumb{background:#fff;height:118px;width:94px;border:1px solid #f1f1f1;isolation:isolate}
+.custom-cart-thumb svg{display:none!important}
+.custom-cart-hoodie{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}
+.custom-cart-thumb .custom-cart-eagle{position:absolute;left:50%;top:58%;transform:translate(-50%,-50%);height:auto;aspect-ratio:299/295;max-width:none;object-fit:contain;background:none!important;-webkit-mask:none!important;mask:none!important;filter:drop-shadow(0 .25px .2px #0004)}
+.custom-cart-thumb .custom-cart-eagle.above{top:61%}
+.custom-cart-thumb .custom-cart-eagle.below{top:55%}
+.custom-cart-thumb .custom-cart-letter{position:absolute;left:26%;right:26%;top:76%;font:800 6px/1.08 Georgia,'Times New Roman',serif;text-shadow:0 .3px .4px #000a;overflow-wrap:anywhere;word-break:normal;text-align:center}
+.custom-cart-thumb .custom-cart-letter.above{top:38%}
+.custom-cart-thumb .custom-cart-letter.alone{top:55%}
+@media(max-width:360px){.cust-stage{height:min(100vw,350px)}}
