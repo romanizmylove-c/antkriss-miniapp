@@ -1,160 +1,162 @@
-/* ANTKRIS 24-frame hoodie product viewer.
- * 24 generated reference views, spaced 15° apart.
- * Not a geometric 3D mesh; photo-and-embroidery customization remains separate. */
+/* ANTKRIS hoodie turntable: 72 generated angles using one compact WebP atlas.
+   Image-based 360° visualization, not a GLB model. Embroidery editor stays in photo mode. */
 (() => {
   'use strict';
-  const FALLBACK = [
-    'assets/hoodie-render-front.jpg',
-    'assets/hoodie-render-angle.jpg',
-    'assets/hoodie-render-side.jpg',
-    'assets/hoodie-render-back.jpg'
-  ];
-  const frames = Array.isArray(window.ANTKRIS_HOODIE_FRAMES_24) && window.ANTKRIS_HOODIE_FRAMES_24.length === 24
-    ? window.ANTKRIS_HOODIE_FRAMES_24
-    : FALLBACK;
-  const stepAngle = 360 / frames.length;
-  let current = 0;
-  let root, photo, caption, gallery, picture, counter, angleLabel, view, controls, slider, playButton;
-  let startX = null, dragX = null, delta = 0, isDragging = false;
-  let playing = false, timer = null;
-  const $ = (s, r=document) => r.querySelector(s);
-  function title(index) {
-    const angle = Math.round(index * stepAngle);
-    if (angle === 0) return 'Спереди';
-    if (angle === 90) return 'Правый профиль';
-    if (angle === 180) return 'Сзади';
-    if (angle === 270) return 'Левый профиль';
-    return angle + '°';
+  const SPRITE = window.ANTKRIS_HOODIE_72_SPRITE;
+  const COUNT = 72;
+  const STEP_MS = 225; // A calm ~16.2-second complete rotation
+  const FRAME_W = 124, FRAME_H = 166, COLS = 8;
+  const OUT = 640;
+  const $ = (selector, root=document) => root.querySelector(selector);
+  let root, photo, caption, gallery, canvas, view, controls, slider, playButton, status;
+  let image = null, current=0, timer=null, running=false, drag=false, moveX=0, dragRemainder=0, visibleMode=true;
+  let previousFocus=null;
+  const reducedMotion=window.matchMedia?.('(prefers-reduced-motion: reduce)').matches || false;
+
+  function paint() {
+    if (!canvas || !image || !image.complete || !image.naturalWidth) return;
+    const ctx=canvas.getContext('2d',{alpha:false});
+    if (!ctx) return;
+    const col=current%COLS;
+    const row=Math.floor(current/COLS);
+    const drawHeight=OUT * .96;
+    const drawWidth=drawHeight * FRAME_W/FRAME_H;
+    const left=(OUT-drawWidth)/2;
+    const top=(OUT-drawHeight)/2;
+    ctx.imageSmoothingEnabled=true;
+    ctx.imageSmoothingQuality='high';
+    ctx.fillStyle='#eceae7';
+    ctx.fillRect(0,0,OUT,OUT);
+    ctx.drawImage(image,col*FRAME_W,row*FRAME_H,FRAME_W,FRAME_H,left,top,drawWidth,drawHeight);
   }
-  function show(n) {
-    current = (Math.round(n) % frames.length + frames.length) % frames.length;
-    picture.src = frames[current];
-    picture.alt = 'Чёрное oversized-худи ANTKRIS, поворот ' + Math.round(current * stepAngle) + ' градусов';
-    angleLabel.textContent = title(current);
-    counter.textContent = String(current + 1).padStart(2, '0') + ' / ' + frames.length;
-    slider.value = current;
-    for (const button of controls.querySelectorAll('[data-hoodie-angle]')) {
-      button.setAttribute('aria-pressed', String(Number(button.dataset.hoodieAngle) === current));
-    }
+  function frame(n) {
+    current=((Math.round(n)%COUNT)+COUNT)%COUNT;
+    if(slider)slider.value=String(current);
+    paint();
   }
-  function spin(shouldPlay) {
-    playing = Boolean(shouldPlay);
-    if (timer) { clearInterval(timer); timer = null; }
-    if (playing) timer = setInterval(() => show(current + 1), 115);
-    playButton.textContent = playing ? 'Пауза' : 'Вращать';
-    playButton.setAttribute('aria-pressed', String(playing));
+  function pause(){
+    running=false;
+    if(timer!==null){clearInterval(timer);timer=null;}
+    if(playButton){playButton.textContent='Вращать';playButton.setAttribute('aria-pressed','false');}
   }
-  function mode(useRenders) {
-    photo.hidden = useRenders;
-    if (caption) caption.hidden = useRenders;
-    gallery.hidden = !useRenders;
-    controls.hidden = !useRenders;
-    const note = $('#antkris-24-note');
-    if (note) note.hidden = !useRenders;
-    $('#cust-24-visual-tab').setAttribute('aria-pressed', String(useRenders));
-    $('#cust-24-photo-tab').setAttribute('aria-pressed', String(!useRenders));
-    if (useRenders) {
-      show(current);
-      spin(true);
-    } else spin(false);
+  function play(){
+    if(!visibleMode || root?.hidden || !image?.naturalWidth || document.hidden)return;
+    pause();
+    running=true;
+    if(playButton){playButton.textContent='Пауза';playButton.setAttribute('aria-pressed','true');}
+    timer=setInterval(()=>{
+      if(document.hidden || root?.hidden || !visibleMode){pause();return;}
+      frame(current+1);
+    },STEP_MS);
+  }
+  function mode(useVisual){
+    visibleMode=Boolean(useVisual);
+    photo.hidden=visibleMode;
+    if(caption) caption.hidden=visibleMode;
+    gallery.hidden=!visibleMode;
+    controls.hidden=!visibleMode;
+    const note=$('#antkris-72-note',root);
+    if(note) note.hidden=!visibleMode;
+    $('#cust-72-visual-tab',root).setAttribute('aria-pressed',String(visibleMode));
+    $('#cust-72-photo-tab',root).setAttribute('aria-pressed',String(!visibleMode));
+    if(visibleMode){paint();if(!reducedMotion)play();}
+    else pause();
   }
   function init() {
-    root = $('#antkris-customizer');
-    if (!root || $('#antkris-24-stage')) return;
-    photo = $('.cust-stage', root);
-    if (!photo) return;
-    caption = $('.cust-figure-note', root);
-    const tabs = document.createElement('div');
-    tabs.className = 'cust-3d-mode-tabs';
-    tabs.setAttribute('role', 'group');
-    tabs.setAttribute('aria-label', 'Режим просмотра худи');
-    tabs.innerHTML = '<button type="button" id="cust-24-visual-tab" aria-pressed="true">Обзор 360°</button><button type="button" id="cust-24-photo-tab" aria-pressed="false">Фото + вышивка</button>';
+    root=$('#antkris-customizer');
+    if(!root || $('#antkris-72-stage',root))return;
+    photo=$('.cust-stage',root);
+    if(!photo)return;
+    caption=$('.cust-figure-note',root);
+    const tabs=document.createElement('div');
+    tabs.className='cust-3d-mode-tabs';
+    tabs.setAttribute('role','group');
+    tabs.setAttribute('aria-label','Режим просмотра худи');
+    tabs.innerHTML='<button type="button" id="cust-72-visual-tab" aria-pressed="true">Обзор 360°</button>'+
+      '<button type="button" id="cust-72-photo-tab" aria-pressed="false">Фото + вышивка</button>';
     photo.before(tabs);
-
-    gallery = document.createElement('section');
-    gallery.id = 'antkris-24-stage';
-    gallery.className = 'cust-3d-gallery';
-    gallery.setAttribute('aria-label', 'Плавный обзор худи ANTKRIS, 24 ракурса');
-    gallery.innerHTML = '<div class="cust-3d-view" tabindex="0" aria-label="Проведите пальцем влево или вправо, чтобы повернуть худи">' +
-      '<img id="antkris-24-image" alt="Чёрное oversized-худи ANTKRIS" draggable="false" decoding="async">' +
-      '<span class="cust-3d-tag">ANTKRIS / 360° · 24 КАДРА</span>' +
-      '<span class="cust-3d-image-label" id="antkris-24-label">Спереди</span>' +
-      '<span class="cust-3d-counter" id="antkris-24-count">01 / 24</span>' +
-      '</div>' +
-      '<div class="antkris-24-scrubber"><span>0°</span><input id="antkris-24-range" type="range" min="0" max="' + (frames.length-1) + '" step="1" value="0" aria-label="Ракурс худи"/><span>360°</span></div>';
+    gallery=document.createElement('section');
+    gallery.id='antkris-72-stage';
+    gallery.className='cust-3d-gallery';
+    gallery.setAttribute('aria-label','Вращение чёрного худи ANTKRIS на 360 градусов');
+    gallery.innerHTML='<div class="cust-3d-view" tabindex="0" role="group" aria-label="Поверните худи свайпом влево или вправо">'+
+      '<canvas id="antkris-72-canvas" width="640" height="640" aria-label="Чёрное oversized-худи ANTKRIS"></canvas>'+
+      '<span class="cust-3d-tag">ANTKRIS / ОБЗОР 360°</span>'+
+      '<span class="cust-3d-image-label">Проведите пальцем ↔</span>'+
+      '<span class="antkris-72-loading" id="antkris-72-loading" role="status">Загрузка худи…</span>'+
+      '</div>'+
+      '<div class="antkris-72-scrubber"><input id="antkris-72-range" type="range" min="0" max="71" step="1" value="0" aria-label="Угол поворота худи"></div>';
     photo.after(gallery);
-    view = $('.cust-3d-view', gallery);
-    picture = $('#antkris-24-image', gallery);
-    counter = $('#antkris-24-count', gallery);
-    angleLabel = $('#antkris-24-label', gallery);
-    slider = $('#antkris-24-range', gallery);
-
-    controls = document.createElement('div');
-    controls.className = 'cust-3d-gallery-actions';
-    controls.id = 'antkris-24-controls';
-    controls.innerHTML = '<div class="cust-3d-gallery-controls" role="group" aria-label="Управление обзором">' +
-      '<button type="button" data-hoodie-angle="0">Спереди</button>' +
-      '<button type="button" data-hoodie-angle="' + Math.round(frames.length/2) + '">Сзади</button>' +
-      '<button type="button" id="antkris-24-autoplay" aria-pressed="true">Пауза</button>' +
-      '<button type="button" data-hoodie-angle="0">Сбросить</button>' +
+    canvas=$('#antkris-72-canvas',gallery);
+    view=$('.cust-3d-view',gallery);
+    slider=$('#antkris-72-range',gallery);
+    status=$('#antkris-72-loading',gallery);
+    controls=document.createElement('div');
+    controls.className='cust-3d-gallery-actions';
+    controls.id='antkris-72-controls';
+    controls.innerHTML='<div class="cust-3d-gallery-controls" role="group" aria-label="Управление вращением">'+
+      '<button type="button" data-hoodie-angle="0">Спереди</button>'+
+      '<button type="button" data-hoodie-angle="36">Сзади</button>'+
+      '<button type="button" id="antkris-72-play" aria-pressed="false">Вращать</button>'+
+      '<button type="button" data-hoodie-angle="0">Сбросить</button>'+
       '</div>';
     gallery.after(controls);
-    playButton = $('#antkris-24-autoplay', controls);
-    const note = document.createElement('div');
-    note.id = 'antkris-24-note';
-    note.className = 'cust-3d-visual-note';
-    note.innerHTML = '<span>24 сгенерированных ракурса, плавное переключение по 15°. Это не геометрическая 3D-модель. Для настройки герба и надписи используйте отдельный режим.</span>' +
-      '<button type="button" id="antkris-24-embroidery">Настроить вышивку ↗</button>';
+    playButton=$('#antkris-72-play',controls);
+    const note=document.createElement('div');
+    note.id='antkris-72-note';
+    note.className='cust-3d-visual-note';
+    note.innerHTML='<span>Вращайте худи пальцем или используйте автоповорот. Предпросмотр создан на основе изображений, это не геометрическая 3D-модель.</span>'+
+      '<button type="button" id="antkris-72-embroidery">Настроить вышивку ↗</button>';
     controls.after(note);
-
-    $('#cust-24-visual-tab').addEventListener('click', () => mode(true));
-    $('#cust-24-photo-tab').addEventListener('click', () => mode(false));
-    $('#antkris-24-embroidery').addEventListener('click', () => mode(false));
-    controls.addEventListener('click', event => {
-      const button = event.target.closest('button');
-      if (!button) return;
-      if (button.id === 'antkris-24-autoplay') spin(!playing);
-      else if (button.hasAttribute('data-hoodie-angle')) {spin(false); show(Number(button.dataset.hoodieAngle));}
+    $('#cust-72-visual-tab',root).addEventListener('click',()=>mode(true));
+    $('#cust-72-photo-tab',root).addEventListener('click',()=>mode(false));
+    $('#antkris-72-embroidery',root).addEventListener('click',()=>mode(false));
+    controls.addEventListener('click',event=>{
+      const btn=event.target.closest('button');
+      if(!btn)return;
+      if(btn.id==='antkris-72-play'){if(running)pause();else play();}
+      else if(btn.hasAttribute('data-hoodie-angle')){pause();frame(Number(btn.dataset.hoodieAngle));}
     });
-    slider.addEventListener('input', event => {spin(false); show(Number(event.target.value));});
-    view.addEventListener('pointerdown', event => {
-      if (event.pointerType === 'mouse' && event.button !== 0) return;
-      spin(false);
-      startX = dragX = event.clientX;
-      delta = 0;
-      isDragging = true;
-      try {view.setPointerCapture(event.pointerId);} catch {}
+    slider.addEventListener('input',event=>{pause();frame(Number(event.target.value));});
+    view.addEventListener('pointerdown',event=>{
+      if(event.pointerType==='mouse' && event.button!==0)return;
+      pause();
+      drag=true;moveX=event.clientX;dragRemainder=0;
+      try{view.setPointerCapture(event.pointerId);}catch{}
     });
-    view.addEventListener('pointermove', event => {
-      if (!isDragging) return;
-      delta += event.clientX - dragX;
-      dragX = event.clientX;
-      while (Math.abs(delta) >= 11) {
-        show(current + (delta < 0 ? 1 : -1));
-        delta += delta < 0 ? 11 : -11;
+    view.addEventListener('pointermove',event=>{
+      if(!drag)return;
+      dragRemainder+=event.clientX-moveX;moveX=event.clientX;
+      while(Math.abs(dragRemainder)>=7){
+        const direction=dragRemainder<0?1:-1;
+        frame(current+direction);
+        dragRemainder+=direction===1?7:-7;
       }
     });
-    const endDrag = () => {isDragging = false; startX = null; delta = 0;};
-    view.addEventListener('pointerup', endDrag);
-    view.addEventListener('pointercancel', endDrag);
-    view.addEventListener('lostpointercapture', endDrag);
-    view.addEventListener('keydown', event => {
-      if (event.key === 'ArrowRight' || event.key === 'ArrowLeft') {
-        spin(false);
-        show(current + (event.key === 'ArrowRight' ? 1 : -1));
-        event.preventDefault();
+    const stopDrag=()=>{drag=false;dragRemainder=0;};
+    view.addEventListener('pointerup',stopDrag);
+    view.addEventListener('pointercancel',stopDrag);
+    view.addEventListener('lostpointercapture',stopDrag);
+    view.addEventListener('keydown',event=>{
+      if(event.key==='ArrowLeft'||event.key==='ArrowRight'){
+        pause();frame(current+(event.key==='ArrowRight'?1:-1));event.preventDefault();
       }
     });
-    // Small image assets: preload in memory to eliminate blanks during fast swipes.
-    for (const src of frames) { const image = new Image(); image.src = src; }
-    mode(true);
-    const originalClose = root.querySelector('[data-custom-close]');
-    if(originalClose) originalClose.addEventListener('click', () => spin(false));
-    window.addEventListener('pagehide', () => spin(false));
-    document.addEventListener('visibilitychange', () => {
-      if(document.hidden) spin(false);
-    });
+    if(!SPRITE || SPRITE.total!==COUNT || typeof SPRITE.uri!=='string'){
+      status.textContent='Не удалось загрузить обзор. Обновите страницу.';return;
+    }
+    image=new Image();
+    image.onload=()=>{status.hidden=true;paint();if(!reducedMotion && !root.hidden && visibleMode)play();};
+    image.onerror=()=>{status.textContent='Не удалось загрузить изображение. Обновите страницу.';pause();};
+    image.src=SPRITE.uri;
+    photo.hidden=true;
+    if(caption)caption.hidden=true;
+    if(reducedMotion)pause();
+    const close=$('[data-custom-close]',root);
+    close?.addEventListener('click',pause);
+    window.addEventListener('pagehide',pause);
+    document.addEventListener('visibilitychange',()=>{if(document.hidden)pause();});
   }
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init, {once:true});
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});
   else init();
 })();
