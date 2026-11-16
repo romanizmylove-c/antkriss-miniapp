@@ -4,9 +4,9 @@
   'use strict';
   const SPRITE = window.ANTKRIS_HOODIE_72_SPRITE;
   const COUNT = 72;
-  const STEP_MS = 225; // A calm ~16.2-second complete rotation
-  const FRAME_W = 124, FRAME_H = 166, COLS = 8;
-  const OUT = 640;
+  const STEP_MS = 255; // Smooth, slow ~18.4-second full turn
+  const FRAME_W = SPRITE?.frameWidth || 448, FRAME_H = SPRITE?.frameHeight || 448, COLS = SPRITE?.columns || 8;
+  const OUT = 720;
   const $ = (selector, root=document) => root.querySelector(selector);
   let root, photo, caption, gallery, canvas, view, controls, slider, playButton, status;
   let image = null, current=0, timer=null, running=false, drag=false, moveX=0, dragRemainder=0, visibleMode=true;
@@ -19,15 +19,12 @@
     if (!ctx) return;
     const col=current%COLS;
     const row=Math.floor(current/COLS);
-    const drawHeight=OUT * .96;
-    const drawWidth=drawHeight * FRAME_W/FRAME_H;
-    const left=(OUT-drawWidth)/2;
-    const top=(OUT-drawHeight)/2;
     ctx.imageSmoothingEnabled=true;
     ctx.imageSmoothingQuality='high';
-    ctx.fillStyle='#eceae7';
+    ctx.fillStyle='#eeedeb';
     ctx.fillRect(0,0,OUT,OUT);
-    ctx.drawImage(image,col*FRAME_W,row*FRAME_H,FRAME_W,FRAME_H,left,top,drawWidth,drawHeight);
+    // Render exactly one square tile of the approved visual style, never neighbouring rows.
+    ctx.drawImage(image,col*FRAME_W,row*FRAME_H,FRAME_W,FRAME_H,0,0,OUT,OUT);
   }
   function frame(n) {
     current=((Math.round(n)%COUNT)+COUNT)%COUNT;
@@ -80,7 +77,7 @@
     gallery.className='cust-3d-gallery';
     gallery.setAttribute('aria-label','Вращение чёрного худи ANTKRIS на 360 градусов');
     gallery.innerHTML='<div class="cust-3d-view" tabindex="0" role="group" aria-label="Поверните худи свайпом влево или вправо">'+
-      '<canvas id="antkris-72-canvas" width="640" height="640" aria-label="Чёрное oversized-худи ANTKRIS"></canvas>'+
+      '<canvas id="antkris-72-canvas" width="720" height="720" aria-label="Чёрное oversized-худи ANTKRIS"></canvas>'+
       '<span class="cust-3d-tag">ANTKRIS / ОБЗОР 360°</span>'+
       '<span class="cust-3d-image-label">Проведите пальцем ↔</span>'+
       '<span class="antkris-72-loading" id="antkris-72-loading" role="status">Загрузка худи…</span>'+
@@ -146,7 +143,7 @@
       status.textContent='Не удалось загрузить обзор. Обновите страницу.';return;
     }
     image=new Image();
-    image.onload=()=>{status.hidden=true;paint();if(!reducedMotion && !root.hidden && visibleMode)play();};
+    image.onload=()=>{if(image.naturalWidth!==FRAME_W*COLS || image.naturalHeight!==FRAME_H*SPRITE.rows){status.textContent='Ошибка размеров изображения. Обновите страницу.';return;}status.hidden=true;paint();if(!reducedMotion && !root.hidden && visibleMode)play();};
     image.onerror=()=>{status.textContent='Не удалось загрузить изображение. Обновите страницу.';pause();};
     image.src=SPRITE.uri;
     photo.hidden=true;
