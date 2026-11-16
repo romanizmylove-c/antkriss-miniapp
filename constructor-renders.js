@@ -6,7 +6,19 @@
   const COUNT = 72;
   const STEP_MS = 255; // Smooth, slow ~18.4-second full turn
   const FRAME_W = SPRITE?.frameWidth || 448, FRAME_H = SPRITE?.frameHeight || 448, COLS = SPRITE?.columns || 8;
-  const OUT = 720;
+  // Match display resolution on Retina devices; original garment images are unchanged.
+  let OUT = 720;
+  function pixelSize() {
+    const cssWidth = view?.clientWidth || 390;
+    const dpr = Math.max(1, Math.min(window.devicePixelRatio || 1, 3));
+    return Math.min(1536, Math.max(720, Math.ceil(cssWidth * dpr)));
+  }
+  function syncCanvasResolution() {
+    if (!canvas) return;
+    const target = pixelSize();
+    if (canvas.width !== target || canvas.height !== target) canvas.width = canvas.height = target;
+    OUT = target;
+  }
   const $ = (selector, root=document) => root.querySelector(selector);
   let root, photo, caption, gallery, canvas, view, controls, slider, playButton, status;
   let image = null, current=0, timer=null, running=false, drag=false, moveX=0, dragRemainder=0, visibleMode=true;
@@ -15,6 +27,7 @@
 
   function paint() {
     if (!canvas || !image || !image.complete || !image.naturalWidth) return;
+    syncCanvasResolution();
     const ctx=canvas.getContext('2d',{alpha:false});
     if (!ctx) return;
     const col=current%COLS;
@@ -85,6 +98,14 @@
       '<div class="antkris-72-scrubber"><input id="antkris-72-range" type="range" min="0" max="71" step="1" value="0" aria-label="Угол поворота худи"></div>';
     photo.after(gallery);
     canvas=$('#antkris-72-canvas',gallery);
+    // Recalculate backing buffer when Telegram changes viewport dimensions.
+    if ('ResizeObserver' in window) {
+      const ro = new ResizeObserver(() => {
+        if(!canvas || !view || view.clientWidth === 0) return;
+        if(canvas.width !== pixelSize()) paint();
+      });
+      ro.observe(gallery);
+    } else window.addEventListener('resize',()=>{if(view?.clientWidth)paint();},{passive:true});
     view=$('.cust-3d-view',gallery);
     slider=$('#antkris-72-range',gallery);
     status=$('#antkris-72-loading',gallery);
