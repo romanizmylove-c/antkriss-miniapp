@@ -23,6 +23,10 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      - name: Build final 24-frame ANTKRIS hoodie turntable
+        run: |
+          python -m pip install --disable-pip-version-check Pillow==11.3.0
+          python tools/build_final24.py
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
         with:
