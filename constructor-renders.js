@@ -1,11 +1,11 @@
-/* ANTKRIS hoodie turntable: 72 generated angles using one compact WebP atlas.
+/* ANTKRIS FINAL prototype: 24 approved viewpoints in a quality-focused WebP atlas.
    Image-based 360° visualization, not a GLB model. Embroidery editor stays in photo mode. */
 (() => {
   'use strict';
-  const SPRITE = window.ANTKRIS_HOODIE_72_SPRITE;
-  const COUNT = 72;
-  const STEP_MS = 255; // Smooth, slow ~18.4-second full turn
-  const FRAME_W = SPRITE?.frameWidth || 448, FRAME_H = SPRITE?.frameHeight || 448, COLS = SPRITE?.columns || 8;
+  const SPRITE = {columns:6, rows:4, frameWidth:720, frameHeight:720, total:24, uri:'assets/hoodie-final24.webp?v=final24'};
+  const COUNT = 24;
+  const STEP_MS = 625; // Slow, deliberate 15-second rotation
+  const FRAME_W = SPRITE.frameWidth, FRAME_H = SPRITE.frameHeight, COLS = SPRITE.columns;
   // Match display resolution on Retina devices; original garment images are unchanged.
   let OUT = 720;
   function pixelSize() {
@@ -75,6 +75,8 @@
   function init() {
     root=$('#antkris-customizer');
     if(!root || $('#antkris-72-stage',root))return;
+    // Reversible prototype-only mode; hide all embroidery settings and photo toggles.
+    root.classList.add('antkris-final360-only');
     photo=$('.cust-stage',root);
     if(!photo)return;
     caption=$('.cust-figure-note',root);
@@ -95,7 +97,7 @@
       '<span class="cust-3d-image-label">Проведите пальцем ↔</span>'+
       '<span class="antkris-72-loading" id="antkris-72-loading" role="status">Загрузка худи…</span>'+
       '</div>'+
-      '<div class="antkris-72-scrubber"><input id="antkris-72-range" type="range" min="0" max="71" step="1" value="0" aria-label="Угол поворота худи"></div>';
+      '<div class="antkris-72-scrubber"><input id="antkris-72-range" type="range" min="0" max="23" step="1" value="0" aria-label="Угол поворота худи"></div>';
     photo.after(gallery);
     canvas=$('#antkris-72-canvas',gallery);
     // Recalculate backing buffer when Telegram changes viewport dimensions.
@@ -114,7 +116,7 @@
     controls.id='antkris-72-controls';
     controls.innerHTML='<div class="cust-3d-gallery-controls" role="group" aria-label="Управление вращением">'+
       '<button type="button" data-hoodie-angle="0">Спереди</button>'+
-      '<button type="button" data-hoodie-angle="36">Сзади</button>'+
+      '<button type="button" data-hoodie-angle="12">Сзади</button>'+
       '<button type="button" id="antkris-72-play" aria-pressed="false">Вращать</button>'+
       '<button type="button" data-hoodie-angle="0">Сбросить</button>'+
       '</div>';
