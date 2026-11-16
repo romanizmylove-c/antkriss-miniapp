@@ -1,0 +1,17 @@
+/* Optional 3D extension: preserves existing 2D embroidery configurator. */
+.antkris-3d-tabs{display:flex;gap:4px;margin:0 14px 10px;padding:4px;background:#f2f0ef;border:1px solid #e8e6e4;border-radius:12px}
+.antkris-3d-tabs button{flex:1;min-height:39px;background:transparent;border:0;border-radius:9px;color:#797575;font-weight:650;font-size:12px;cursor:pointer}
+.antkris-3d-tabs button[aria-pressed="true"]{background:white;color:#242424;box-shadow:0 2px 8px #0000000c}
+.antkris-3d-stage{position:relative;height:min(92vw,365px);min-height:270px;margin:0 14px;border-radius:14px;border:1px solid #e9e6e2;overflow:hidden;background:radial-gradient(ellipse at 35% 18%,#fefdfb,#e1dfdb)}
+.antkris-3d-stage[hidden],.antkris-3d-controls[hidden],.antkris-3d-note[hidden],.cust-screen .cust-stage[hidden]{display:none!important}
+.antkris-3d-stage model-viewer{width:100%;height:100%;display:block;--poster-color:transparent;touch-action:pan-y}
+.antkris-3d-tag{position:absolute;z-index:3;top:12px;left:13px;color:#7b7570;letter-spacing:1px;font-size:10px;font-weight:750;pointer-events:none}
+.antkris-3d-status{position:absolute;inset:45% 10px auto;text-align:center;font-size:12px;color:#666;z-index:2;pointer-events:none}
+.antkris-3d-status[hidden]{display:none}
+.antkris-3d-upload{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:12px;background:#efedebf2;z-index:4;padding:24px}
+.antkris-3d-upload[hidden]{display:none}.antkris-3d-upload b{font-size:16px}.antkris-3d-upload p{max-width:265px;margin:0;font-size:12px;line-height:1.5;color:#6a6765}
+.antkris-3d-upload label{border-radius:999px;background:#272626;color:#fff;min-height:43px;padding:13px 20px;font-weight:750;font-size:12px;cursor:pointer}
+#antkris-glb-input{position:absolute;left:-9999px;width:1px;height:1px}
+.antkris-3d-controls{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;margin:9px 14px}
+.antkris-3d-controls button{min-height:40px;border-radius:10px;border:1px solid #e6e4e2;background:#fff;font-weight:650;font-size:11px;color:#484644}
+.antkris-3d-note{margin:8px 18px!important;line-height:1.5}
