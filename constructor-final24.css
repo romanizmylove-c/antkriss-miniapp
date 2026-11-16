@@ -1,0 +1,32 @@
+/* ANTKRIS final presentation mode: ONLY 360-degree hoodie viewer is visible.
+   Underlying photographic embroidery, sizes and cart implementation remains in source
+   and can be re-enabled when requested. This stylesheet is reversible. */
+#antkris-customizer.antkris-final360-only .cust-stage,
+#antkris-customizer.antkris-final360-only .cust-3d-mode-tabs,
+#antkris-customizer.antkris-final360-only .cust-figure-note,
+#antkris-customizer.antkris-final360-only .cust-reference,
+#antkris-customizer.antkris-final360-only .cust-panel,
+#antkris-customizer.antkris-final360-only .cust-divider,
+#antkris-customizer.antkris-final360-only .cust-warning,
+#antkris-customizer.antkris-final360-only .cust-footer,
+#antkris-customizer.antkris-final360-only .cust-help,
+#antkris-customizer.antkris-final360-only #antkris-72-note {
+  display:none !important;
+}
+#antkris-customizer.antkris-final360-only .cust-scroll {
+  padding-bottom:28px;
+}
+#antkris-customizer.antkris-final360-only #antkris-72-stage {
+  display:block;
+  margin-top:0;
+}
+#antkris-customizer.antkris-final360-only #antkris-72-controls {
+  display:block;
+  margin-top:10px;
+}
+#antkris-customizer.antkris-final360-only #antkris-72-canvas {
+  display:block;
+  width:100%;
+  height:100%;
+  image-rendering:auto;
+}
