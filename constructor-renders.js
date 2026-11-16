@@ -154,6 +154,12 @@
     if(reducedMotion)pause();
     const close=$('[data-custom-close]',root);
     close?.addEventListener('click',pause);
+    // The constructor is opened later than DOMContentLoaded; resume only while visible.
+    const observer=new MutationObserver(()=>{
+      if(root.hidden)pause();
+      else if(visibleMode && image?.naturalWidth && !running && !reducedMotion)play();
+    });
+    observer.observe(root,{attributes:true,attributeFilter:['hidden']});
     window.addEventListener('pagehide',pause);
     document.addEventListener('visibilitychange',()=>{if(document.hidden)pause();});
   }
