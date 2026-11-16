@@ -1,10 +1,10 @@
-/* ANTKRIS premium visual review, matched to the existing light interface. */
+/* ANTKRIS premium hoodie, 24-step visual turntable. */
 .cust-3d-mode-tabs{display:grid;grid-template-columns:1fr 1fr;gap:4px;margin:0 14px 12px;padding:4px;background:#f0efee;border:1px solid #e6e3e0;border-radius:13px}
 .cust-3d-mode-tabs button{background:transparent;border:0;border-radius:10px;min-height:42px;padding:9px 4px;font-family:inherit;color:#797575;font-size:12px;font-weight:650;cursor:pointer}
 .cust-3d-mode-tabs button[aria-pressed="true"]{background:#fff;box-shadow:0 3px 12px #28201c11;color:#232222}
 .cust-3d-gallery{margin:0 14px}
-.cust-3d-gallery[hidden],.cust-3d-gallery-actions[hidden],#cust-3d-visual-note[hidden],.cust-screen .cust-stage[hidden],.cust-screen .cust-figure-note[hidden]{display:none!important}
-.cust-3d-view{position:relative;aspect-ratio:1/1;background:#e9e6e3;border-radius:17px;overflow:hidden;touch-action:pan-y;user-select:none;-webkit-user-select:none;outline-offset:3px}
+.cust-3d-gallery[hidden],.cust-3d-gallery-actions[hidden],#antkris-24-note[hidden],.cust-screen .cust-stage[hidden],.cust-screen .cust-figure-note[hidden]{display:none!important}
+.cust-3d-view{position:relative;aspect-ratio:1;background:#e9e6e3;border-radius:17px;overflow:hidden;touch-action:pan-y;user-select:none;-webkit-user-select:none;outline-offset:3px}
 .cust-3d-view img{width:100%;height:100%;display:block;object-fit:cover;pointer-events:none;-webkit-user-drag:none}
 .cust-3d-tag{position:absolute;top:13px;left:13px;font-size:9px;font-weight:800;letter-spacing:1.2px;color:#807c78;background:#f6f3f2e6;border-radius:20px;padding:8px 10px;pointer-events:none}
 .cust-3d-image-label,.cust-3d-counter{position:absolute;bottom:13px;background:#ffffffde;color:#34312f;pointer-events:none;font-size:11px;font-weight:700;padding:8px 12px;border-radius:999px}
@@ -12,7 +12,9 @@
 .cust-3d-gallery-actions{margin:10px 14px}
 .cust-3d-gallery-controls{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:7px}
 .cust-3d-gallery-controls button{background:#fff;border:1px solid #dfdcd9;color:#4c4946;font-size:11px;font-weight:650;min-height:43px;padding:8px 2px;border-radius:11px;cursor:pointer}
-.cust-3d-gallery-controls button[aria-pressed="true"]{background:#2c2226;border-color:#2c2226;color:white}
+.cust-3d-gallery-controls button[aria-pressed="true"]{background:#2c2226;border-color:#2c2226;color:#fff}
 .cust-3d-visual-note{margin:0 19px 12px;text-align:center;color:#88827d;font-size:10px;line-height:1.55}
 .cust-3d-visual-note button{display:block;color:#34312e;border:0;text-decoration:underline;background:none;cursor:pointer;margin:8px auto 0;font-size:11px;font-weight:700}
+.antkris-24-scrubber{display:flex;align-items:center;gap:11px;padding:8px 3px 0;color:#8b827e;font-size:10px;font-weight:700}
+.antkris-24-scrubber input{flex:1;min-width:0;width:100%;accent-color:#6e565c;touch-action:pan-x;cursor:pointer}
 @media(max-width:355px){.cust-3d-gallery-controls{gap:4px}.cust-3d-gallery-controls button{font-size:10px}.cust-3d-tag{font-size:8px}}
